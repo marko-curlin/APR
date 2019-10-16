@@ -1,6 +1,7 @@
 from copy import deepcopy
 from math import isclose
 
+
 def check_matrix(matrix):
     """
     Check if matrix is a proper matrix
@@ -18,6 +19,7 @@ def check_matrix(matrix):
 
 def check_is_number(x):
     return isinstance(x, (int, float)) and not isinstance(x, bool)
+
 
 def read_matrix_from_file(path_to_file: str):
     with open(path_to_file, 'r') as input_file:
@@ -45,6 +47,8 @@ class Matrix:
 
     def _init_from_list(self, matrix=(())):
         check_matrix(matrix)
+        if not isinstance(matrix[0], (tuple, list)):
+            self.matrix = [matrix]
         self.matrix = matrix
         # self.rows = len(matrix)
         # self.cols = len(matrix[0])
@@ -75,6 +79,9 @@ class Matrix:
                 output_file.write('\n')
 
     def __getitem__(self, index):
+        if self.rows == 1:
+            return self.matrix[0][index]
+
         return self.matrix[index]
 
     def __setitem__(self, index, x):    # TODO: make it work with 2D assignment
@@ -184,7 +191,7 @@ if __name__ == '__main__':
     # matrix[0] = [1,2]
     # matrix.print_matrix()
 
-    matrix = Matrix([[0,1],[2,3],[4,5]])
+    matrix = Matrix([[0,1]])
     matrix.transpose()
     # matrix1 = Matrix([[0,1],[2,3.000000000001]])
     # matrix -= matrix1
