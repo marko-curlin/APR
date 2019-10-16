@@ -173,7 +173,10 @@ class Matrix:
         self.matrix = transposed_matrix
 
     def multiply_matrices(self, other):
-        
+        pass
+
+    def is_square(self):
+        return self.cols == self.rows
 
 if __name__ == '__main__':
     # matrix = Matrix([[1.01,2.1], [3,4]])
