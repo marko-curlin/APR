@@ -39,15 +39,15 @@ def read_matrix_from_file(path_to_file: str):
 
 class Matrix:
 
-    def __init__(self, matrix=(())):
-        if isinstance(matrix, (list, tuple)):
+    def __init__(self, matrix=[[]]):
+        if isinstance(matrix, list):
             self._init_from_list(matrix)
         if isinstance(matrix, str):
             self._init_from_file(matrix)
 
-    def _init_from_list(self, matrix=(())):
+    def _init_from_list(self, matrix=[[]]):
         check_matrix(matrix)
-        if not isinstance(matrix[0], (tuple, list)):
+        if not isinstance(matrix[0], list):
             self.matrix = [matrix]
         self.matrix = matrix
         # self.rows = len(matrix)
@@ -79,8 +79,8 @@ class Matrix:
                 output_file.write('\n')
 
     def __getitem__(self, index):
-        if self.rows == 1:
-            return self.matrix[0][index]
+        # if self.rows == 1:
+        #     return self.matrix[0][index]
 
         return self.matrix[index]
 
@@ -167,7 +167,9 @@ class Matrix:
         return True
 
     def transpose(self):
-        transposed_matrix = list()
+        # self.matrix = list(zip(*self.matrix)) -> turns rows into tuples!!
+
+        transposed_matrix = []
 
         for j in range(self.cols):
             transposed_row = []
@@ -185,15 +187,41 @@ class Matrix:
     def is_square(self):
         return self.cols == self.rows
 
+    @classmethod
+    def eye_matrix(cls, n: int):
+        eye_matrix = []
+
+        for i in range(n):
+            row = []
+
+            for j in range(n):
+                if j == i:
+                    row.append(1)
+                else:
+                    row.append(0)
+
+            eye_matrix.append(row)
+
+        return eye_matrix
+
+    def switch_columns(self, k, r):
+        self.transpose()
+
+        self[k], self[r] = self[r], self[k]
+
+        self.transpose()
+
+
 if __name__ == '__main__':
-    # matrix = Matrix([[1.01,2.1], [3,4]])
-    # matrix.print_matrix()
-    # matrix[0] = [1,2]
-    # matrix.print_matrix()
+    matrix = Matrix([[1.01, 2.1], [3,4]])
+    matrix[0] = [1,2]
+
+    assert matrix.matrix == [[1,2], [3,4]]
 
     matrix = Matrix([[0,1]])
     matrix.transpose()
-    # matrix1 = Matrix([[0,1],[2,3.000000000001]])
-    # matrix -= matrix1
-    matrix.print_matrix()
-    # print(matrix == matrix1)
+
+    assert matrix.matrix == [[0], [1]]
+
+    assert matrix == deepcopy(matrix)
+
