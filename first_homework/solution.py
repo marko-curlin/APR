@@ -2,20 +2,13 @@ from first_homework.matrix import Matrix
 
 
 def forward_substitution(matrix: Matrix, vector: Matrix) -> Matrix:
-    if not matrix.is_square() or vector.rows != matrix.rows:
+    if not matrix.is_square() or vector.cols != matrix.cols:
         raise ValueError('The vector must be of the same size as the quadrant matrix!')
 
-    # result = []
-    # sum_element = 0
-    #
-    # for i in range(matrix.rows):
-    #     for j in range(i-1):
-    #         sum_element = matrix[i][j] * result[j]
-    #     result.append(vector[i] - sum_element)
     result = vector[0]
 
-    for i in range(matrix.rows-1):
-        for j in range(i, matrix.rows):
+    for i in range(matrix.rows - 1):
+        for j in range(i + 1, matrix.rows):
             result[j] -= matrix[j][i] * result[i]
 
     return Matrix([result])
@@ -24,14 +17,6 @@ def forward_substitution(matrix: Matrix, vector: Matrix) -> Matrix:
 def backward_substitution(matrix: Matrix, vector: Matrix) -> Matrix:
     if not matrix.is_square() or vector.rows != matrix.rows:
         raise ValueError('The vector must be of the same size as the quadrant matrix!')
-
-    # result = []
-    # sum_element = 0
-    #
-    # for i in range(matrix.rows, step=-1):
-    #     for j in range(i - 1):
-    #         sum_element = matrix[i][j] * result[j]
-    #     result.append(vector[i] - sum_element)
 
     result = vector[0]
 
@@ -66,3 +51,4 @@ def LUP_decomposition(matrix: Matrix):
 
     for i in range(matrix.rows):
         pass
+
