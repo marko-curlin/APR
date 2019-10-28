@@ -56,7 +56,7 @@ def test_imul():
 
     for i in range(matrix.rows):
         for j in range(matrix.cols):
-            assert matrix.matrix[i][j] == comparison_matrix[i * matrix.cols + j]
+            assert matrix.matrix[i][j] == pytest.approx(comparison_matrix[i * matrix.cols + j], 0.1)
 
 
 def test_square_matrix_function():
@@ -78,7 +78,7 @@ def test_column_switch():
 
     for i in range(matrix.rows):
         for j in range(matrix.cols):
-            assert matrix.matrix[i][j] == comparison_matrix[i][j]
+            assert matrix.matrix[i][j] == pytest.approx(comparison_matrix[i][j], 0.1)
 
 
 def compare_all_values_between_matrices(original_matrix: Matrix, comparison_matrix: list):
