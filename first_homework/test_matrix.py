@@ -47,10 +47,10 @@ def test_assignment_of_single_value():
     assert matrix.matrix[0][1] == 10
 
 
-def test_imul():
+def test_mul():
     matrix = Matrix([[1, 2], [3, 4]])
 
-    matrix *= 2
+    matrix = Matrix(matrix * 2)
 
     comparison_matrix = [i*2 for i in range(1, 5)]
 

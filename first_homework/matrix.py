@@ -146,14 +146,11 @@ class Matrix:
         return self
 
     def __mul__(self, other):
-        if not check_is_number(other):
-            raise ValueError('The scalar must be a real number!')
+        if check_is_number(other):
+            return self.multiply_with_scalar(other)
 
-        for i in range(self.rows):
-            for j in range(self.cols):
-                self[i][j] *= other
-
-        return self
+        if isinstance(other, (Matrix, list)):
+            return self.multiply_with_matrix(other)
 
     def __eq__(self, other):
         if other.rows != self.rows or other.cols != self.cols:
@@ -165,6 +162,22 @@ class Matrix:
                     return False
 
         return True
+
+    def multiply_with_scalar(self, other):
+        if not check_is_number(other):
+            raise ValueError('The scalar must be a real number!')
+
+        result = []
+
+        for i in range(self.rows):
+            result_row = []
+
+            for j in range(self.cols):
+                result_row.append(self[i][j] * other)
+
+            result.append(result_row)
+
+        return result
 
     def transpose(self):
         # self.matrix = list(zip(*self.matrix)) -> turns rows into tuples!!
@@ -183,8 +196,29 @@ class Matrix:
 
         return self
 
-    def multiply_matrices(self, other):
-        pass
+    def multiply_with_matrix(self, other):
+        if not isinstance(other, (Matrix, list)):
+            raise ValueError('The other variable must be a matrix')
+
+        if self.cols != other.rows:
+            raise ValueError('The other matrix must have the same number of rows as this matrix has columns!')
+
+        result = []
+
+        for i in range(self.rows):
+            result_row = []
+
+            for j in range(other.cols):
+                result_col_value = 0
+
+                for k in range(self.cols):
+                    result_col_value += self[i][k] * other[k][j]
+
+                result_row.append(result_col_value)
+
+            result.append(result_row)
+
+        return result
 
     def is_square(self):
         return self.cols == self.rows
