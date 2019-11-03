@@ -45,7 +45,7 @@ def LU_decomposition(matrix: Matrix) -> Matrix:
             for k in range(i+1, matrix.rows):
                 LU_matrix[j][k] -= LU_matrix[j][i] * LU_matrix[i][k]
 
-    return Matrix(LU_matrix)
+    return Matrix(LU_matrix), Matrix.eye_matrix(matrix.rows), 0
 
 
 def LUP_decomposition1(matrix: Matrix):
@@ -111,7 +111,7 @@ def LUP_decomposition(matrix: Matrix):
 
 
 def choose_pivot_element(matrix, start_row):
-    max_value = matrix[start_row][start_row]
+    max_value = abs(matrix[start_row][start_row])
 
     pivot = start_row
 
@@ -119,8 +119,8 @@ def choose_pivot_element(matrix, start_row):
         return pivot
 
     for i in range(start_row + 1, len(matrix)):
-        if matrix[i][start_row] > max_value:
-            max_value = matrix[i][start_row]
+        if abs(matrix[i][start_row]) > max_value:
+            max_value = abs(matrix[i][start_row])
             pivot = i
 
     return pivot

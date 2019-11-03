@@ -31,7 +31,7 @@ def test_forward_substitution(matrix, vector, solution):
 def test_LU_decomposition():
     matrix = Matrix([[4,3,2,1], [4,6,1,-1], [-8,3,-5,-6], [12,12,7,4]])
 
-    assert LU_decomposition(matrix).matrix == [[4,3,2,1], [1,3,-1,-2], [-2,3,2,2], [3,1,1,1]]
+    assert LU_decomposition(matrix)[0].matrix == [[4,3,2,1], [1,3,-1,-2], [-2,3,2,2], [3,1,1,1]]
 
 
 def test_LUP_decomposition2():
@@ -58,7 +58,7 @@ def test_matrix_inverse():
 def test_pivot_choosing():
     matrix = [[4, 3, 2, 1], [4, 6, 1, -1], [-8, 3, -5, -6], [-12, 2, 7, -4]]
 
-    assert choose_pivot_element(matrix, 0) == 0
+    assert choose_pivot_element(matrix, 0) == 3
     assert choose_pivot_element(matrix, 1) == 1
     assert choose_pivot_element(matrix, 2) == 3
     assert choose_pivot_element(matrix, 3) == 3
