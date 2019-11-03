@@ -1,7 +1,7 @@
 from first_homework.matrix import Matrix, deepcopy
 from math import isclose
 
-EPSILON = 0.001
+EPSILON = 10e-6
 
 
 def forward_substitution(matrix: Matrix, vector: Matrix) -> Matrix:
@@ -90,10 +90,11 @@ def LUP_decomposition(matrix: Matrix):
 
     permutation_counter = 0
 
-    for i in range(matrix.rows - 1):
+    for i in range(matrix.rows):
         pivot = choose_pivot_element(matrix_copy, i)
 
-        assert not isclose(matrix_copy[pivot][pivot], 0, abs_tol=EPSILON), 'The pivot element must not be zero!'
+        if isclose(matrix_copy[pivot][pivot], 0, abs_tol=EPSILON):
+            raise PivotElementIsZero
 
         matrix_copy[pivot], matrix_copy[i] = matrix_copy[i], matrix_copy[pivot]
         p[i], p[pivot] = p[pivot], p[i]
@@ -153,3 +154,8 @@ def matrix_determinant(matrix: Matrix):
         determinant *= LU_matrix[i][i]
 
     return determinant
+
+
+class PivotElementIsZero(BaseException):
+    def __str__(self):
+        return 'pivot element is zero'
