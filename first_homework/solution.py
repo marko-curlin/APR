@@ -1,4 +1,7 @@
 from first_homework.matrix import Matrix, deepcopy
+from math import isclose
+
+EPSILON = 0.001
 
 
 def forward_substitution(matrix: Matrix, vector: Matrix) -> Matrix:
@@ -20,7 +23,7 @@ def backward_substitution(matrix: Matrix, vector: Matrix) -> Matrix:
 
     result = vector[0]
 
-    for i in range(matrix.rows)[::-1]:
+    for i in reversed(range(matrix.rows)):
         result[i] /= matrix[i][i]
         for j in range(i):
             result[j] -= matrix[j][i] * result[i]
@@ -35,29 +38,31 @@ def LU_decomposition(matrix: Matrix) -> Matrix:
     LU_matrix = matrix.matrix
 
     for i in range(matrix.cols - 1):
+
         for j in range(i+1, matrix.rows):
             LU_matrix[j][i] /= LU_matrix[i][i]
+
             for k in range(i+1, matrix.rows):
                 LU_matrix[j][k] -= LU_matrix[j][i] * LU_matrix[i][k]
 
     return Matrix(LU_matrix)
 
 
-def LUP_decomposition(matrix: Matrix):
+def LUP_decomposition1(matrix: Matrix):
     if not matrix.is_square():
         raise ValueError('The matrix must be a square matrix!')
 
-    # p = Matrix.eye_matrix(matrix.rows)
     p = [i for i in range(matrix.rows)]
 
     matrix_copy = deepcopy(matrix.matrix)
 
     for i in range(matrix.rows - 1):
-        pivot = i
-
-        for j in range(i+1, matrix.rows):
-            if abs(matrix_copy[p[j]][i]) > abs(matrix_copy[p[pivot]][i]):
-                pivot = j
+        # pivot = i
+        #
+        # for j in range(i+1, matrix.rows):
+        #     if abs(matrix_copy[p[j]][i]) > abs(matrix_copy[p[pivot]][i]):
+        #         pivot = j
+        pivot = choose_pivot_element(matrix_copy, i)
 
         p[i], p[pivot] = p[pivot], p[i]
 
@@ -69,22 +74,40 @@ def LUP_decomposition(matrix: Matrix):
 
     result_matrix = []
 
-    for i in range(len(p))[::-1]:
+    for i in reversed(range(len(p))):
         result_matrix.append(matrix_copy[i])
 
     return Matrix(result_matrix)
 
-# def LUP_decomposition(matrix: Matrix):
-#     if not matrix.is_square():
-#         raise ValueError('The matrix must be a square matrix!')
-#
-#     # p = Matrix.eye_matrix(matrix.rows)
-#     p = [i for i in range(matrix.rows)]
-#
-#     matrix_copy = deepcopy(matrix.matrix)
-#
-#     for i in range(matrix.rows):
-#         pivot = choose_pivot_element(matrix_copy, i)
+
+def LUP_decomposition(matrix: Matrix):
+    if not matrix.is_square():
+        raise ValueError('The matrix must be a square matrix!')
+
+    p = Matrix.eye_matrix(matrix.rows)
+
+    matrix_copy = deepcopy(matrix.matrix)
+
+    permutation_counter = 0
+
+    for i in range(matrix.rows - 1):
+        pivot = choose_pivot_element(matrix_copy, i)
+
+        assert not isclose(matrix_copy[pivot][pivot], 0, abs_tol=EPSILON), 'The pivot element must not be zero!'
+
+        matrix_copy[pivot], matrix_copy[i] = matrix_copy[i], matrix_copy[pivot]
+        p[i], p[pivot] = p[pivot], p[i]
+
+        if i != pivot:
+            permutation_counter += 1
+
+        for j in range(i+1, matrix.rows):
+            matrix_copy[j][i] /= matrix_copy[i][i]
+
+            for k in range(i+1, matrix.rows):
+                matrix_copy[j][k] -= matrix_copy[j][i] * matrix_copy[i][k]
+
+    return Matrix(matrix_copy), p, permutation_counter
 
 
 def choose_pivot_element(matrix, start_row):
