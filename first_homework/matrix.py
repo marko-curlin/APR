@@ -68,7 +68,10 @@ class Matrix:
     def print_matrix(self):
         for row in self.matrix:
             for col in row:
-                print(str(col) + ' ', end='')
+                if abs(col) < 10e-9:
+                    print('0 ', end='')
+                else:
+                    print("{:.4}".format(col) + ' ', end='')
             print()
 
     def print_matrix_to_file(self, output_file_location: str):
