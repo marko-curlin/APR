@@ -181,6 +181,8 @@ class Matrix:
 
         self.matrix = transposed_matrix
 
+        return self
+
     def multiply_matrices(self, other):
         pass
 
