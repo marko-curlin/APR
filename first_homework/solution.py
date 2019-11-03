@@ -88,5 +88,45 @@ def LUP_decomposition(matrix: Matrix):
 
 
 def choose_pivot_element(matrix, start_row):
-    for i in range(start_row, len(matrix)):
-        pass
+    max_value = matrix[start_row][start_row]
+
+    pivot = start_row
+
+    if start_row == len(matrix) - 1:
+        return pivot
+
+    for i in range(start_row + 1, len(matrix)):
+        if matrix[i][start_row] > max_value:
+            max_value = matrix[i][start_row]
+            pivot = i
+
+    return pivot
+
+
+def matrix_inverse(matrix: Matrix):
+    LU_matrix, permutation_matrix, _ = LUP_decomposition(matrix)
+
+    permutation_matrix_transposed = [list(x) for x in zip(*permutation_matrix)]
+
+    inverse_matrix = []
+
+    for i in range(matrix.rows):
+        pi = permutation_matrix_transposed[i]
+
+        yi = forward_substitution(LU_matrix, Matrix([pi]))
+        xi = backward_substitution(LU_matrix, yi)
+
+        inverse_matrix.append(xi.matrix[0])
+
+    return Matrix(inverse_matrix).transpose()
+
+
+def matrix_determinant(matrix: Matrix):
+    LU_matrix, p_matrix, counter = LUP_decomposition(matrix)
+
+    determinant = 1 - 2 * (counter % 2)
+
+    for i in range(LU_matrix.rows):
+        determinant *= LU_matrix[i][i]
+
+    return determinant
