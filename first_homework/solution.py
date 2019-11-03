@@ -141,7 +141,7 @@ def matrix_inverse(matrix: Matrix):
 
         inverse_matrix.append(xi.matrix[0])
 
-    return Matrix(inverse_matrix).transpose()
+    return Matrix(inverse_matrix).transpose
 
 
 def matrix_determinant(matrix: Matrix):

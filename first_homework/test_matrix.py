@@ -13,7 +13,7 @@ def test_assignment_of_whole_row():
 
 def test_transposition():
     matrix = Matrix([[0, 1]])
-    matrix.transpose()
+    matrix = matrix.transpose
 
     assert matrix.matrix == [[0], [1]]
 

@@ -185,6 +185,7 @@ class Matrix:
 
         return result
 
+    @property
     def transpose(self):
         # self.matrix = list(zip(*self.matrix)) -> turns rows into tuples!!
 
@@ -198,9 +199,7 @@ class Matrix:
 
             transposed_matrix.append(transposed_row)
 
-        self.matrix = transposed_matrix
-
-        return self
+        return Matrix(transposed_matrix)
 
     def multiply_with_matrix(self, other):
         if not isinstance(other, (Matrix, list)):
@@ -247,11 +246,11 @@ class Matrix:
         return eye_matrix
 
     def switch_columns(self, k, r):
-        self.transpose()
+        self.matrix = self.transpose.matrix
 
         self[k], self[r] = self[r], self[k]
 
-        self.transpose()
+        self.matrix = self.transpose.matrix
 
 
 if __name__ == '__main__':
@@ -261,7 +260,7 @@ if __name__ == '__main__':
     assert matrix.matrix == [[1,2], [3,4]]
 
     matrix = Matrix([[0,1]])
-    matrix.transpose()
+    matrix = matrix.transpose
 
     assert matrix.matrix == [[0], [1]]
 
