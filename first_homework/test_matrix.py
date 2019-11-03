@@ -79,7 +79,3 @@ def test_column_switch():
     for i in range(matrix.rows):
         for j in range(matrix.cols):
             assert matrix.matrix[i][j] == pytest.approx(comparison_matrix[i][j], 0.1)
-
-
-def compare_all_values_between_matrices(original_matrix: Matrix, comparison_matrix: list):
-    pass
