@@ -31,7 +31,7 @@ def backward_substitution(matrix: Matrix, vector: Matrix) -> Matrix:
     return Matrix([result])
 
 
-def LU_decomposition(matrix: Matrix) -> Matrix:
+def LU_decomposition(matrix: Matrix) -> Matrix:  # be careful of zero division
     if not matrix.is_square():
         raise ValueError('The matrix must be a square matrix!')
 
