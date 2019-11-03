@@ -152,6 +152,12 @@ class Matrix:
         if isinstance(other, (Matrix, list)):
             return self.multiply_with_matrix(other)
 
+        raise ValueError('Multiplication has to be with a matrix or number')
+
+    def __imul__(self, other):
+        self.matrix = self * other
+        return self
+
     def __eq__(self, other):
         if other.rows != self.rows or other.cols != self.cols:
             return False
