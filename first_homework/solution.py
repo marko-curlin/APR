@@ -146,7 +146,7 @@ def matrix_inverse(matrix: Matrix):
 
 
 def matrix_determinant(matrix: Matrix):
-    LU_matrix, p_matrix, counter = LUP_decomposition(matrix)
+    LU_matrix, _, counter = LUP_decomposition(matrix)
 
     determinant = 1 - 2 * (counter % 2)
 
