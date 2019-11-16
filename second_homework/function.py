@@ -24,23 +24,25 @@ class OneVariableFunction:
 
 
 class LambdaFunction(OneVariableFunction):
-    def __init__(self, func, current_vector, current_index):
+    def __init__(self, func, vector, current_index):
         super().__init__(func)
-        self.vector = deepcopy(current_vector)
+        self.vector = deepcopy(vector)
         self.current_index = current_index
 
-    def __call__(self, x):  # refactor so previous result is used correctly
+    def __call__(self, x):
         self.total_nr_of_calls += 1
 
-        # if x in self.previous_results:
-        #     return self.previous_results[x]
+        vector_with_lambda = deepcopy(self.vector)
+        vector_with_lambda[self.current_index] += x
 
-        vector = deepcopy(self.vector)
-        vector[self.current_index] += x
+        vector_with_lambda = tuple(vector_with_lambda)
 
-        result = self.func(*vector)
+        if vector_with_lambda in self.previous_results:
+            return self.previous_results[vector_with_lambda]
 
-        self.previous_results[x] = result
+        result = self.func(*vector_with_lambda)
+
+        self.previous_results[vector_with_lambda] = result
 
         self.nr_of_calls += 1
 
