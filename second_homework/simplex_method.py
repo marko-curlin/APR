@@ -5,13 +5,16 @@ from math import sqrt
 
 
 def find_function_min(function, start_point: List[float], start_delta: float = 1, alpha: float = 1, beta: float = 0.5,
-                      gama: float = 2, sigma: float = 0.5, epsilon: float = 10**-6) -> List[float]:
+                      gama: float = 2, sigma: float = 0.5, epsilon: float = 10**-6, enable_output=False) -> List[float]:
     simplex_points = calculate_simplex_points(start_point, start_delta)
 
     while True:
         h, l = get_lowest_and_highest_point(function, simplex_points)
 
         Xc: List[float] = calculate_centroid(simplex_points, h)
+
+        if enable_output:
+            print('centroid: {}, goal function in centroid: {: 3f}'.format(str(Xc), function(*Xc)))
 
         Xr: List[float] = reflection(Xc, simplex_points[h], alpha)
 
@@ -139,6 +142,6 @@ def add_list_elements(list1, list2):
 
 
 if __name__ == '__main__':
-    print(find_function_min(lambda x, y: x**2 + y**2, [2, 0]))
+    print(find_function_min(lambda x, y: x**2 + y**2, [2, 0], enable_output=True))
 
-    print(find_function_min(lambda x, y: 100 * (y - x) ** 2 + (1 - x) ** 2, [-1.9, 2]))
+    print(find_function_min(lambda x, y: 100 * (y - x) ** 2 + (1 - x) ** 2, [-1.9, 2], enable_output=True))
