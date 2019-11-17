@@ -3,7 +3,7 @@ from copy import deepcopy
 from operator import add, sub
 
 
-def find_function_min(function, start_point: List[float], delta_x: float,
+def find_function_min(function, start_point: List[float], delta_x: float = 0.5,
                       epsilon: float = 10**-6, enable_output = False) -> List[float]:
     Xp = deepcopy(start_point)
     Xb = deepcopy(start_point)
