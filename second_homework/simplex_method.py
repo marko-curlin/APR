@@ -133,10 +133,12 @@ def move_all_points_to_Xl(simplex_points, l, sigma):
 def check_stop_condition(function, simplex_points, centroid, epsilon):
     _sum = 0
 
-    for simplex_point in simplex_points:
-        _sum += (function(*simplex_point) - function(*centroid))**2
+    value_in_centroid = function(*centroid)
 
-    return sqrt(_sum / len(simplex_points)) <= epsilon
+    for simplex_point in simplex_points:
+        _sum += (function(*simplex_point) - value_in_centroid)**2
+
+    return sqrt(_sum / len(simplex_points[0])) <= epsilon
 
 
 def subtract_list_elements(list1, list2):

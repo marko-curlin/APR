@@ -86,9 +86,16 @@ def task1(start_point):
 
 
 def task2():
-    for i in range(1, 4):
-        func, start_point = function_factory(i)
-        simplex_and_hooke_jeeves(func, start_point)
+    for i in range(1, 5):
+        original_func, start_point = function_factory(i)
+        print('Function number: ' + str(i))
+        print('Start point: ' + str(start_point))
+        simplex_and_hooke_jeeves(original_func, start_point)
+
+        print_headers('AXIS SEARCH', '#' * 70)
+        func = deepcopy(original_func)
+        result = coordinate_axis(func, start_point if isinstance(start_point, list) else [start_point])
+        print_result(func, result)
 
 
 def task3():
