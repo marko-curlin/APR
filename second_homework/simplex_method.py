@@ -2,11 +2,14 @@ from typing import List, Tuple
 from operator import add, sub
 from copy import deepcopy
 from math import sqrt
+from prettytable import PrettyTable
 
 
 def find_function_min(function, start_point: List[float], start_delta: float = 1, alpha: float = 1, beta: float = 0.5,
                       gama: float = 2, sigma: float = 0.5, epsilon: float = 10**-6, enable_output=False) -> List[float]:
     simplex_points = calculate_simplex_points(start_point, start_delta)
+
+    table = PrettyTable(['x' + str(i) for i in range(len(start_point))] + ['value of function in centroid'])
 
     while True:
         h, l = get_lowest_and_highest_point(function, simplex_points)
@@ -14,7 +17,7 @@ def find_function_min(function, start_point: List[float], start_delta: float = 1
         Xc: List[float] = calculate_centroid(simplex_points, h)
 
         if enable_output:
-            print('centroid: {}, goal function in centroid: {: 3f}'.format(str(Xc), function(*Xc)))
+            table.add_row([centroid_value for centroid_value in Xc] + [function(*Xc)])
 
         Xr: List[float] = reflection(Xc, simplex_points[h], alpha)
 
@@ -43,6 +46,9 @@ def find_function_min(function, start_point: List[float], start_delta: float = 1
 
         if check_stop_condition(function, simplex_points, Xc, epsilon):
             break
+
+    if enable_output:
+        print(table)
 
     return simplex_points[l]
 

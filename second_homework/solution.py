@@ -2,6 +2,7 @@ from math import sqrt, sin
 from operator import mul
 from copy import deepcopy
 from random import random
+from prettytable import PrettyTable
 
 from second_homework.function import Function
 from second_homework.golden_section import find_function_min as golden_section
@@ -31,21 +32,34 @@ def square_list_elements(list1):
     return list(map(mul, list1, list1))
 
 
+def print_headers(title, marker):
+    print("{} {} {}".format(marker, title, marker))
+
+
 def main():
+    print_headers('FIRST TASK (10)', '$'*100)
     task1(10)
+    print_headers('FIRST TASK (50)', '$'*100)
     task1(50)
+    print_headers('FIRST TASK (100)', '$'*100)
     task1(100)
+    print_headers('SECOND TASK', '$'*100)
     task2()
+    print_headers('THIRD TASK', '$'*100)
     task3()
+    print_headers('FOURTH TASK', '$'*100)
     task4()
+    print_headers('FIFTH TASK', '$'*100)
     task5()
 
 
 def all_algorithms(original_function, start_point):
+    print_headers('GOLDEN SECTION', '#'*70)
     func = deepcopy(original_function)
     result = golden_section(func, start_point=start_point, enable_output=True)
     print_result(func, result)
 
+    print_headers('AXIS SEARCH', '#'*70)
     func = deepcopy(original_function)
     result = coordinate_axis(func, start_point=start_point if isinstance(start_point, list) else [start_point])
     print_result(func, result)
@@ -54,11 +68,13 @@ def all_algorithms(original_function, start_point):
 
 
 def simplex_and_hooke_jeeves(original_function, start_point):
+    print_headers('SIMPLEX', '#'*70)
     func = deepcopy(original_function)
     result = simplex(func, start_point=start_point if isinstance(start_point, list) else [start_point],
                      enable_output=True)
     print_result(func, result)
 
+    print_headers('HOOKE AND JEEVES', '#'*70)
     func = deepcopy(original_function)
     result = hooke_jeeves(func, start_point=start_point if isinstance(start_point, list) else [start_point],
                           enable_output=True)
@@ -66,7 +82,7 @@ def simplex_and_hooke_jeeves(original_function, start_point):
 
 
 def task1(start_point):
-    all_algorithms(lambda x: (x - 3) ** 2, start_point)
+    all_algorithms(Function(lambda x: (x - 3) ** 2), start_point)
 
 
 def task2():
@@ -87,12 +103,18 @@ def task4():
 
     start_point = [0.5, 0.5]
     for i in range(1, 21):
+        print_headers('SIMPLEX', '#' * 70)
+        print('start point = {}'.format(start_point))
+        print('start delta = {}'.format(i))
         func = deepcopy(original_function)
         result = simplex(func, start_point=start_point, start_delta=i, enable_output=True)
         print_result(func, result)
 
     start_point = [20, 20]
     for i in range(1, 21):
+        print_headers('SIMPLEX', '#'*70)
+        print('start point = {}'.format(start_point))
+        print('start delta = {}'.format(i))
         func = deepcopy(original_function)
         result = simplex(func, start_point=start_point, start_delta=i, enable_output=True)
         print_result(func, result)
@@ -103,18 +125,26 @@ def task5():
 
     for i in range(5):
         start_point = [random() * 100 - 50, random() * 100 - 50]
+        print_headers('SIMPLEX', '#'*70)
+        print('start point = {}'.format(start_point))
         func = deepcopy(original_function)
         result = simplex(func, start_point, enable_output=True)
         print_result(func, result)
 
     start_point = [.001, -0.01]
+    print_headers('SIMPLEX', '#' * 70)
+    print('start point = {}'.format(start_point))
     func = deepcopy(original_function)
     result = simplex(func, start_point, enable_output=True)
     print_result(func, result)
 
 
-def print_result(function, result):  # TODO: use the function variable; make it prettier
-    print(result)
+def print_result(function, result):
+    table = PrettyTable(['min', 'function value in min', 'function calls', 'total function calls'])
+    result_value = function(*result if isinstance(result, list) else [result])
+    table.add_row([result, result_value if not isinstance(result_value, list) else tuple(result_value),
+                   function.nr_of_calls, function.total_nr_of_calls])
+    print(table)
 
 
 if __name__ == '__main__':

@@ -25,8 +25,7 @@ def find_smallest_interval(function, a: float, b: float, e: float, enable_output
     fc = function(c)
     fd = function(d)
 
-    table = PrettyTable()
-    table.field_names = ['a', 'b', 'c', 'd', 'f(a)', 'f(b)', 'f(c)', 'f(d)']
+    table = PrettyTable(['a', 'b', 'c', 'd', 'f(a)', 'f(b)', 'f(c)', 'f(d)'])
 
     if enable_output:
         print_values(function, a, b, c, d, table)

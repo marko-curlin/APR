@@ -1,18 +1,21 @@
 from typing import List
 from copy import deepcopy
 from operator import add, sub
+from prettytable import PrettyTable
 
 
 def find_function_min(function, start_point: List[float], delta_x: float = 0.5,
-                      epsilon: float = 10**-6, enable_output = False) -> List[float]:
+                      epsilon: float = 10**-6, enable_output=False) -> List[float]:
     Xp = deepcopy(start_point)
     Xb = deepcopy(start_point)
+
+    table = PrettyTable(['Xb', 'f(Xb)', 'Xp', 'f(Xp)', 'Xn', 'f(Xn)'])
 
     while True:
         Xn = explore(function, Xp, delta_x)
 
         if enable_output:
-            print_values(function, Xb, Xp, Xn)
+            print_values(function, Xb, Xp, Xn, table)
 
         if function(*Xn) < function(*Xb):
             Xp = subtract_list_elements(multiply_list_elements(Xn, 2), Xb)
@@ -24,6 +27,9 @@ def find_function_min(function, start_point: List[float], delta_x: float = 0.5,
 
         if delta_x < epsilon:
             break
+
+    if enable_output:
+        print(table)
 
     return Xb
 
@@ -59,14 +65,12 @@ def multiply_list_elements(_list, mul):
     return [mul * x for x in _list]
 
 
-def print_values(function, base_point, explore_point, new_point):
+def print_values(function, base_point, explore_point, new_point, table):
     value_Xb = function(*base_point)
     value_Xp = function(*explore_point)
     value_Xn = function(*new_point)
 
-    print("Xb = {}, f(Xb) = {} ... Xp = {}, f(Xp) = {} ... Xn = {}, f(Xn) = {}".format(base_point, value_Xb,
-                                                                                       explore_point, value_Xp,
-                                                                                       new_point, value_Xn))
+    table.add_row([base_point, value_Xb, explore_point, value_Xp, new_point, value_Xn])
 
 
 if __name__ == '__main__':
