@@ -43,6 +43,8 @@ def main():
     task1(50)
     print_headers('FIRST TASK (100)', '$'*100)
     task1(100)
+    print_headers('FIRST TASK (1000)', '$'*100)
+    task1(1000)
     print_headers('SECOND TASK', '$'*100)
     task2()
     print_headers('THIRD TASK', '$'*100)
