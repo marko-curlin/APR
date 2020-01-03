@@ -32,7 +32,14 @@ class Function:
         self.gradient_calls += 1
         return self._calculate_gradient(*x)
 
-    def _calculate_gradient(self, x):
+    def _calculate_gradient(self, *x):
+        raise NotImplementedError
+
+    def calculate_hesse_matrix(self, *x):
+        self.Hesse_matrix_calls += 1
+        return self._calculate_hesse_matrix(*x)
+
+    def _calculate_hesse_matrix(self, *x):
         raise NotImplementedError
 
 
