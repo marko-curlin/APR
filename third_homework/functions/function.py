@@ -1,4 +1,5 @@
 from copy import deepcopy
+from third_homework.util.utils import *
 
 
 class Function:
@@ -30,16 +31,16 @@ class Function:
 
 
 class LambdaFunction(Function):
-    def __init__(self, func, vector, current_index):
+    def __init__(self, func, vector, gradient):
         super().__init__(func)
         self.vector = deepcopy(vector)
-        self.current_index = current_index
+        self.gradient = deepcopy(gradient)
 
     def __call__(self, x):
         self.total_nr_of_calls += 1
 
         vector_with_lambda = deepcopy(self.vector)
-        vector_with_lambda[self.current_index] += x
+        vector_with_lambda = add_elements_on_same_index(vector_with_lambda, multiply_each_element(self.gradient, x))
 
         vector_with_lambda = tuple(vector_with_lambda)
 
