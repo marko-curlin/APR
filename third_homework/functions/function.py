@@ -8,6 +8,8 @@ class Function:
         self.nr_of_calls = 0
         self.previous_results = {}
         self.total_nr_of_calls = 0
+        self.gradient_calls = 0
+        self.Hesse_matrix_calls = 0
 
     def __call__(self, *x):
         self.total_nr_of_calls += 1
@@ -27,6 +29,10 @@ class Function:
         return self.func(*x)
 
     def calculate_gradient(self, *x):
+        self.gradient_calls += 1
+        return self._calculate_gradient(*x)
+
+    def _calculate_gradient(self, x):
         raise NotImplementedError
 
 
