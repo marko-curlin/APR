@@ -23,7 +23,7 @@ def find_function_min(function: Function, start_point: List[float], shift_type='
     while True:
         gradient = function.calculate_gradient(*current_point)
 
-        if norm(gradient) < e or total_iterations == 100_000:
+        if norm(gradient) < e:
             break
 
         if shift_type == 'classic':
