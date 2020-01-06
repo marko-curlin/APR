@@ -29,7 +29,7 @@ def find_function_min(function: Function, start_point: List[float], shift_type='
         if shift_type == 'classic':
             shift = calculate_shift_for_classic(gradient)
         elif shift_type == 'golden':
-            shift = calculate_shift_for_golden(function, start_point, gradient)
+            shift = calculate_shift_for_golden(function, current_point, gradient)
         else:
             raise ValueError('unsupported shift type')
 
