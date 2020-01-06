@@ -15,6 +15,9 @@ def find_unimodal_interval(h: float, start_point: float, function) -> Tuple[floa
     if fm < fr and fm < fl:
         return l, r
 
+    if fm > fr and fm > fl:
+        raise ValueError('Function is not unimodal!')
+
     if fm > fr:
         while True:
             l = m
