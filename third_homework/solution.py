@@ -1,15 +1,18 @@
 from prettytable import PrettyTable
 
 from third_homework.gradient import find_function_min as gradient
+from third_homework.newthon_raphson import find_function_min as newthon_raphson
 from third_homework.functions.function_factory import get_function_and_start_point
 
 PRINT_STEPS = False
 
 
 def main():
-    print_headers('FIRST TASK', '#'*70)
-    first_task()
-    first_task_golden()
+    # print_headers('FIRST TASK', '#'*70)
+    # first_task()
+    # first_task_golden()
+    print_headers('SECOND TASK', '#' * 70)
+    second_task()
 
 
 def print_headers(title, marker):
@@ -28,6 +31,32 @@ def first_task_golden():
     print_headers('Using golden step', '-'*10)
     func, start_point = get_function_and_start_point(3)
     result = gradient(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    print_result(result, func)
+
+
+def second_task():
+    print_headers('GRADIENT', '$'*20)
+
+    print_headers('First function', '-'*10)
+    func, start_point = get_function_and_start_point(1)
+    result = gradient(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    print_result(result, func)
+
+    print_headers('Second function', '-'*10)
+    func, start_point = get_function_and_start_point(2)
+    result = gradient(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    print_result(result, func)
+
+    print_headers('NEWTON-RAPHSON', '$'*20)
+
+    print_headers('First function', '-'*10)
+    func, start_point = get_function_and_start_point(1)
+    result = newthon_raphson(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    print_result(result, func)
+
+    print_headers('Second function', '-'*10)
+    func, start_point = get_function_and_start_point(2)
+    result = newthon_raphson(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
     print_result(result, func)
 
 
