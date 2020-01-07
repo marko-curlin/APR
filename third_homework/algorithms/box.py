@@ -13,8 +13,8 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
     if not is_point_within_limits(start_point, implicit_limits=implicit_limits, explicit_limits=explicit_limits):
         raise ValueError('Starting point is not within limits!')
 
-    simplex_points: List[List[float]] = [start_point]
-    Xc = start_point
+    simplex_points: List[List[float]] = [list(start_point)]
+    Xc = simplex_points[0]
     lower_limit = get_max_lower_limit(explicit_limits)
     upper_limit = get_min_upper_limit(explicit_limits)
     for t in range(2*len(start_point)):
@@ -70,13 +70,13 @@ def get_random_point(explicit_limits):
     upper_limit = get_min_upper_limit(explicit_limits)
 
     random_point = sub_elements_on_same_index(upper_limit, lower_limit)
-    random_point = multiply_each_element(random_point, random())
+    random_point = mul_elements_on_same_index(random_point, [random() for _ in range(len(random_point))])
     random_point = add_elements_on_same_index(lower_limit, random_point)
     return random_point
 
 
-def is_point_within_limits(point: List[float], *, implicit_limits: List[ImplicitLimit] = None,
-                           explicit_limits: List[ExplicitLimit] = None) -> bool:
+def is_point_within_limits(point: List[float], *, implicit_limits: List[ImplicitLimit] = (),
+                           explicit_limits: List[ExplicitLimit] = ()) -> bool:
     for implicit_limit in implicit_limits:
         if not implicit_limit.is_point_within_limit(point):
             return False
@@ -110,8 +110,10 @@ def find_worst_and_second_worst_index(simplex_points: List[List[float]], func: F
         if value > second_max_value:
             if value > max_value:
                 max_index, second_max_index = index, max_index
+                max_value, second_max_value = value, max_value
             else:
                 second_max_index = index
+                second_max_value = value
 
     return max_index, second_max_index
 
