@@ -1,16 +1,16 @@
 from prettytable import PrettyTable
 
-from third_homework.gradient import find_function_min as gradient
-from third_homework.newthon_raphson import find_function_min as newthon_raphson
+from third_homework.algorithms.gradient import find_function_min as gradient
+from third_homework.algorithms.newthon_raphson import find_function_min as newthon_raphson
 from third_homework.functions.function_factory import get_function_and_start_point
 
 PRINT_STEPS = False
 
 
 def main():
-    # print_headers('FIRST TASK', '#'*70)
-    # first_task()
-    # first_task_golden()
+    print_headers('FIRST TASK', '#'*70)
+    first_task()
+    first_task_golden()
     print_headers('SECOND TASK', '#' * 70)
     second_task()
 
