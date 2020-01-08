@@ -3,6 +3,7 @@ from prettytable import PrettyTable
 from third_homework.algorithms.gradient import find_function_min as gradient
 from third_homework.algorithms.newthon_raphson import find_function_min as newton_raphson
 from third_homework.algorithms.box import find_function_min as box
+from third_homework.algorithms.constrained_optimization_transforamtion import find_function_min as transformation
 
 from third_homework.functions.function_factory import get_function_and_start_point
 
@@ -18,8 +19,10 @@ def main():
     # first_task_golden()
     # print_headers('SECOND TASK', '#' * 70)
     # second_task()
-    print_headers('THIRD TASK', '#' * 70)
-    third_task()
+    # print_headers('THIRD TASK', '#' * 70)
+    # third_task()
+    print_headers('FOURTH TASK', '#' * 70)
+    fourth_task()
 
 
 def print_headers(title, marker):
@@ -77,12 +80,27 @@ def third_task():
 
     print_headers('First function', '-' * 10)
     func, start_point = get_function_and_start_point(1)
-    result = box(func, start_point, [implicit_limit1, implicit_limit2], [explicit_limit1, explicit_limit2])
+    result = box(func, start_point, [implicit_limit1, implicit_limit2], [explicit_limit1, explicit_limit2], enable_output=True)
     print_result(result, func)
 
     print_headers('Second function', '-' * 10)
     func, start_point = get_function_and_start_point(2)
-    result = box(func, start_point, [implicit_limit1, implicit_limit2], [explicit_limit1, explicit_limit2])
+    result = box(func, start_point, [implicit_limit1, implicit_limit2], [explicit_limit1, explicit_limit2], enable_output=True)
+    print_result(result, func)
+
+
+def fourth_task():
+    implicit_limit1 = InequationLimit(lambda x, y: y - x)
+    implicit_limit2 = InequationLimit(lambda x, y: 2 - x)
+
+    print_headers('First function', '-' * 10)
+    func, start_point = get_function_and_start_point(1)
+    result = transformation(func, start_point, [implicit_limit1, implicit_limit2], enable_output=True)
+    print_result(result, func)
+
+    print_headers('Second function', '-' * 10)
+    func, start_point = get_function_and_start_point(2)
+    result = transformation(func, start_point, [implicit_limit1, implicit_limit2], enable_output=True)
     print_result(result, func)
 
 
