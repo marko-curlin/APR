@@ -1,7 +1,8 @@
 from copy import deepcopy
+from math import inf, log
 from typing import Callable
 
-from third_homework.limits.implicit_limits import ImplicitLimit
+from third_homework.limits.implicit_limits import ImplicitLimit, EquationLimit, InequationLimit
 from third_homework.util.utils import *
 
 
@@ -82,6 +83,51 @@ class InnerPointFunction(Function):
         for limit in self.implicit_limits:
             value = limit.get_value(*x)
             if value < 0:
-                _sum += limit.get_value(*x)
-        return multiply_each_element(_sum, -1)
+                _sum -= limit.get_value(*x)
+        return _sum
         # return sum([-limit.get_value(*x) if limit.get_value(*x) < 0 else 0 for limit in self.implicit_limits])
+
+
+class TransformedFunction:
+    def __init__(self, func: Function, implicit_limits: List[ImplicitLimit], t: float):
+        self.func = func
+        self.implicit_limits = implicit_limits
+        self.t = t
+
+    def __call__(self, *x):
+        return self.func(*x) - self.calculate_inequality_limits_values(x) + self.calculate_equality_limits_values(x)
+
+    def calculate_equality_limits_values(self, point):
+        equality_limits = self.get_equality_limits()
+
+        _sum = 0
+        for limit in equality_limits:
+            _sum += limit.get_value(*point)**2
+
+        return _sum * self.t
+
+    def calculate_inequality_limits_values(self, point):
+        inequality_limits = self.get_inequality_limits()
+
+        _sum = 0
+        for limit in inequality_limits:
+            value = limit.get_value(*point)
+
+            if value < 0:
+                return -inf
+
+            _sum += log(value)
+
+        return _sum / self.t
+
+    def get_equality_limits(self):
+        return list(filter(lambda x: isinstance(EquationLimit, x), self.implicit_limits))
+
+    def get_inequality_limits(self):
+        return list(filter(lambda x: isinstance(InequationLimit, x), self.implicit_limits))
+
+    def calculate_gradient(self, *x):
+        return self.func.calculate_gradient(*x)
+
+    def calculate_hesse_matrix(self, *x):
+        return self.func.calculate_hesse_matrix(*x)
