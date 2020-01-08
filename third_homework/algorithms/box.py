@@ -84,19 +84,6 @@ def get_random_point(explicit_limits):
     return random_point
 
 
-def is_point_within_limits(point: List[float], *, implicit_limits: List[ImplicitLimit] = (),
-                           explicit_limits: List[ExplicitLimit] = ()) -> bool:
-    for implicit_limit in implicit_limits:
-        if not implicit_limit.is_point_within_limit(point):
-            return False
-
-    for explicit_limit in explicit_limits:
-        if not explicit_limit.is_point_within_limit(point):
-            return False
-
-    return True
-
-
 def move_first_point_towards_second(Xt, Xc):
     closer_point = add_elements_on_same_index(Xt, Xc)
     closer_point = multiply_each_element(closer_point, 0.5)
