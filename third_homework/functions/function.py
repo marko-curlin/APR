@@ -1,4 +1,7 @@
 from copy import deepcopy
+from typing import Callable
+
+from third_homework.limits.implicit_limits import ImplicitLimit
 from third_homework.util.utils import *
 
 
@@ -67,3 +70,18 @@ class LambdaFunction(Function):
         self.nr_of_calls += 1
 
         return result
+
+
+class InnerPointFunction(Function):
+    def __init__(self, implicit_limits: List[ImplicitLimit]):
+        super().__init__(None)
+        self.implicit_limits = implicit_limits
+
+    def preform_function(self, x):
+        _sum = 0
+        for limit in self.implicit_limits:
+            value = limit.get_value(*x)
+            if value < 0:
+                _sum += limit.get_value(*x)
+        return multiply_each_element(_sum, -1)
+        # return sum([-limit.get_value(*x) if limit.get_value(*x) < 0 else 0 for limit in self.implicit_limits])

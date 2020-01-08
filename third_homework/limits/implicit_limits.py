@@ -10,6 +10,9 @@ class ImplicitLimit(abc.ABC):
     def is_point_within_limit(self, point: List) -> bool:
         pass
 
+    def get_value(self, point: List[float]) -> float:
+        return self.func(*point)
+
 
 EPSILON = 10e-6
 
