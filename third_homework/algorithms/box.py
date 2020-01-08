@@ -1,6 +1,8 @@
 from math import inf
 from random import random
 
+from prettytable import PrettyTable
+
 from third_homework.functions.function import Function
 from third_homework.util.utils import *
 from third_homework.limits.implicit_limits import ImplicitLimit
@@ -12,6 +14,8 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
                       enable_output=False) -> List[float]:
     if not is_point_within_limits(start_point, implicit_limits=implicit_limits, explicit_limits=explicit_limits):
         raise ValueError('Starting point is not within limits!')
+
+    table = PrettyTable(['centroid - x' + str(i) for i in range(len(start_point))] + ['value of function in centroid'])
 
     simplex_points: List[List[float]] = [list(start_point)]
     Xc = simplex_points[0]
@@ -31,6 +35,8 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
 
         Xc = calculate_centroid(simplex_points, h)
 
+        table.add_row([centroid_value for centroid_value in Xc] + [function(*Xc)])
+
         Xr = reflection(Xc, simplex_points[h], alpha)
 
         Xr = move_point_to_within_limits(lower_limit, upper_limit, Xr)
@@ -45,6 +51,9 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
 
         if is_stop_condition_satisfied(function, simplex_points, Xc, e):
             break
+
+    if enable_output:
+        print(table)
 
     return Xc
 
@@ -142,7 +151,7 @@ def calculate_centroid(simplex_points: List[List[float]], h: int) -> List[float]
 
         centroid = add_elements_on_same_index(centroid, simplex_points[i])
 
-    centroid = multiply_each_element(centroid, 1 / (len(simplex_points) - 1))  # [centroid_coordinate / (len(simplex_points) - 1) for centroid_coordinate in centroid]
+    centroid = multiply_each_element(centroid, 1 / (len(simplex_points) - 1))
 
     return centroid
 
