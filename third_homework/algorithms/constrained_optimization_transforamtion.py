@@ -9,7 +9,7 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
                       t: float = 1, e: float = 10**-6, enable_output=False) -> List[float]:
 
     if is_point_within_limits(start_point, implicit_limits=implicit_limits):
-        current_point = start_point
+        current_point = list(start_point)
     else:
         current_point = find_inner_point(start_point, implicit_limits)
 

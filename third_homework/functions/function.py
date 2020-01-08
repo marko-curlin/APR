@@ -102,7 +102,7 @@ class TransformedFunction:
 
         _sum = 0
         for limit in equality_limits:
-            _sum += limit.get_value(*point)**2
+            _sum += limit.get_value(point)**2
 
         return _sum * self.t
 
@@ -111,7 +111,7 @@ class TransformedFunction:
 
         _sum = 0
         for limit in inequality_limits:
-            value = limit.get_value(*point)
+            value = limit.get_value(point)
 
             if value < 0:
                 return -inf
@@ -121,10 +121,10 @@ class TransformedFunction:
         return _sum / self.t
 
     def get_equality_limits(self):
-        return list(filter(lambda x: isinstance(EquationLimit, x), self.implicit_limits))
+        return list(filter(lambda x: isinstance(x, EquationLimit), self.implicit_limits))
 
     def get_inequality_limits(self):
-        return list(filter(lambda x: isinstance(InequationLimit, x), self.implicit_limits))
+        return list(filter(lambda x: isinstance(x, InequationLimit), self.implicit_limits))
 
     def calculate_gradient(self, *x):
         return self.func.calculate_gradient(*x)
