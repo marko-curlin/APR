@@ -2,12 +2,12 @@ from copy import deepcopy
 from math import inf, log
 from typing import Callable
 
-from third_homework.limits.implicit_limits import ImplicitLimit, EquationLimit, InequationLimit
+from third_homework.limits.implicit_limits import EquationLimit, InequationLimit
 from third_homework.util.utils import *
 
 
 class Function:
-    def __init__(self, func):
+    def __init__(self, func: Callable):
         self.func = func
         self.nr_of_calls = 0
         self.previous_results = {}
@@ -81,9 +81,9 @@ class InnerPointFunction(Function):
     def preform_function(self, x):
         _sum = 0
         for limit in self.implicit_limits:
-            value = limit.get_value(*x)
+            value = limit.get_value(x)
             if value < 0:
-                _sum -= limit.get_value(*x)
+                _sum -= value
         return _sum
         # return sum([-limit.get_value(*x) if limit.get_value(*x) < 0 else 0 for limit in self.implicit_limits])
 
@@ -114,9 +114,12 @@ class TransformedFunction:
             value = limit.get_value(point)
 
             if value < 0:
-                return -inf
+                return -10e50
 
-            _sum += log(value)
+            try:
+                _sum += log(value)
+            except ValueError:
+                return -inf
 
         return _sum / self.t
 
