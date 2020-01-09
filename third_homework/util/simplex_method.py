@@ -1,8 +1,10 @@
 from typing import List, Tuple, Callable
-from operator import add, sub
+from operator import sub
 from copy import deepcopy
 from math import sqrt
 from prettytable import PrettyTable
+
+from third_homework.util.utils import add_elements_on_same_index, multiply_each_element
 
 
 def find_function_min(function: Callable, start_point: List[float], start_delta: float = 1, alpha: float = 1, beta: float = 0.5,
@@ -50,7 +52,7 @@ def find_function_min(function: Callable, start_point: List[float], start_delta:
     if enable_output:
         print(table)
 
-    return simplex_points[l]
+    return Xc
 
 
 def calculate_simplex_points(start_point, start_delta):
@@ -76,15 +78,15 @@ def get_lowest_and_highest_point(function, simplex_points: List[List[float]]) ->
 
 
 def calculate_centroid(simplex_points, h):
-    centroid = [0] * len(simplex_points)
+    centroid = [0] * len(simplex_points[0])
 
     for i in range(len(simplex_points)):
         if i == h:
             continue
 
-        centroid = add_list_elements(centroid, simplex_points[i])
+        centroid = add_elements_on_same_index(centroid, simplex_points[i])
 
-    centroid = [centroid_coordinate / (len(simplex_points) - 1) for centroid_coordinate in centroid]
+    centroid = multiply_each_element(centroid, 1 / (len(simplex_points) - 1))
 
     return centroid
 
@@ -126,7 +128,7 @@ def move_all_points_to_Xl(simplex_points, l, sigma):
         if i == l:
             continue
 
-        simplex_points[i] = add_list_elements(simplex_points[i], simplex_points[l])
+        simplex_points[i] = add_elements_on_same_index(simplex_points[i], simplex_points[l])
         simplex_points[i] = [x_i * sigma for x_i in simplex_points[i]]
 
 
@@ -143,10 +145,6 @@ def check_stop_condition(function, simplex_points, centroid, epsilon):
 
 def subtract_list_elements(list1, list2):
     return list(map(sub, list1, list2))
-
-
-def add_list_elements(list1, list2):
-    return list(map(add, list1, list2))
 
 
 if __name__ == '__main__':
