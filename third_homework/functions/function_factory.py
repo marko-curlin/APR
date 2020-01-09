@@ -1,10 +1,13 @@
+from typing import Tuple
+
 from .first_function import FirstFunction
+from .function import Function
 from .second_function import SecondFunction
 from .third_function import ThirdFunction
 from .fourth_function import FourthFunction
 
 
-def get_function_and_start_point(i: int):
+def get_function_and_start_point(i: int) -> Tuple[Function, Tuple[float, float]]:
     if i == 1:
         return FirstFunction(), (-1.9, 2)
     if i == 2:
