@@ -10,14 +10,15 @@ from third_homework.util.simplex_method import find_function_min as simplex_min
 def find_function_min(function: Function, start_point: List[float], implicit_limits: List[ImplicitLimit] = None,
                       t: float = 1, e: float = 10**-6, enable_output=False) -> List[float]:
     table = PrettyTable(['total_iterations', 'previous_point', 'current_point', 'min_value', 'break_condition_value'])
+    start_point = list(start_point)
 
     if is_point_within_limits(start_point, implicit_limits=implicit_limits):
-        current_point = list(start_point)
+        current_point = start_point
     else:
         current_point = find_inner_point(start_point, implicit_limits)
 
     function = TransformedFunction(function, implicit_limits, t)
-    minimum_value = function(*start_point)
+    minimum_value = function(*current_point)
 
     total_iterations, iterations_without_improvement = 1, 0
     while True:
