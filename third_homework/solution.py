@@ -7,7 +7,7 @@ from third_homework.algorithms.constrained_optimization_transforamtion import fi
 
 from third_homework.functions.function_factory import get_function_and_start_point
 
-from third_homework.limits.implicit_limits import InequationLimit
+from third_homework.limits.implicit_limits import InequationLimit, EquationLimit
 from third_homework.limits.explicit_limits import LowerLimit, UpperLimit
 
 PRINT_STEPS = False
@@ -21,8 +21,10 @@ def main():
     # second_task()
     # print_headers('THIRD TASK', '#' * 70)
     # third_task()
-    print_headers('FOURTH TASK', '#' * 70)
-    fourth_task()
+    # print_headers('FOURTH TASK', '#' * 70)
+    # fourth_task()
+    print_headers('FIFTH TASK', '#' * 70)
+    fifth_task()
 
 
 def print_headers(title, marker):
@@ -101,6 +103,17 @@ def fourth_task():
     print_headers('Second function', '-' * 10)
     func, start_point = get_function_and_start_point(2)
     result = transformation(func, start_point, [implicit_limit1, implicit_limit2], enable_output=True)
+    print_result(result, func)
+
+
+def fifth_task():
+    implicit_limit1 = InequationLimit(lambda x, y: 3 - x - y)
+    implicit_limit2 = InequationLimit(lambda x, y: 3 + 1.5*x - y)
+    implicit_limit3 = EquationLimit(lambda x, y: y - 1)
+
+    func, _ = get_function_and_start_point(4)
+    start_point = (5, 5)
+    result = transformation(func, start_point, [implicit_limit1, implicit_limit2, implicit_limit3], enable_output=True)
     print_result(result, func)
 
 
