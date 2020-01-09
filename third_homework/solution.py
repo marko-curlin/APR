@@ -14,15 +14,15 @@ PRINT_STEPS = False
 
 
 def main():
-    # print_headers('FIRST TASK', '#'*70)
-    # first_task()
-    # first_task_golden()
-    # print_headers('SECOND TASK', '#' * 70)
-    # second_task()
-    # print_headers('THIRD TASK', '#' * 70)
-    # third_task()
-    # print_headers('FOURTH TASK', '#' * 70)
-    # fourth_task()
+    print_headers('FIRST TASK', '#'*70)
+    first_task()
+    first_task_golden()
+    print_headers('SECOND TASK', '#' * 70)
+    second_task()
+    print_headers('THIRD TASK', '#' * 70)
+    third_task()
+    print_headers('FOURTH TASK', '#' * 70)
+    fourth_task()
     print_headers('FIFTH TASK', '#' * 70)
     fifth_task()
 
