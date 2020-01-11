@@ -8,8 +8,6 @@ from third_homework.util import golden_section
 
 from prettytable import PrettyTable
 
-MAX_ITERATIONS = 300_000
-
 
 def find_function_min(function: Function, start_point: List[float], shift_type='classic', e: float = 10**-6,
                       enable_output=False) -> List[float]:

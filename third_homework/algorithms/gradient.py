@@ -6,8 +6,6 @@ from third_homework.functions.function_factory import get_function_and_start_poi
 
 from prettytable import PrettyTable
 
-MAX_ITERATIONS = 300
-
 
 def find_function_min(function: Function, start_point: List[float], shift_type='classic', e: float = 10**-6,
                       enable_output=False) -> List[float]:
@@ -17,7 +15,6 @@ def find_function_min(function: Function, start_point: List[float], shift_type='
     iterations_without_improvement = 0
 
     minimum_value = function(*start_point)
-
     current_point = deepcopy(start_point)
 
     while True:

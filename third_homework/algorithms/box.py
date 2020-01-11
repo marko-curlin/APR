@@ -19,8 +19,10 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
 
     simplex_points: List[List[float]] = [list(start_point)]
     Xc = simplex_points[0]
+
     lower_limit = get_max_lower_limit(explicit_limits)
     upper_limit = get_min_upper_limit(explicit_limits)
+
     for t in range(2*len(start_point)):
         Xt = get_random_point(explicit_limits)
 
@@ -30,6 +32,8 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
         simplex_points.append(Xt)
         Xc = calculate_centroid(simplex_points, None)
 
+    iterations_without_improvement = 0
+    minimum_value = function(*Xc)
     while True:
         h, h2 = find_worst_and_second_worst_index(simplex_points, function)
 
@@ -48,6 +52,17 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
             Xr = move_first_point_towards_second(Xr, Xc)
 
         simplex_points[h] = Xr
+
+        current_value = function(*Xc)
+        if current_value < minimum_value:
+            minimum_value = current_value
+            iterations_without_improvement = 0
+        else:
+            iterations_without_improvement += 1
+            if iterations_without_improvement == MAX_ITERATIONS:
+                if enable_output:
+                    print(table)
+                raise ArithmeticError('It exceeded maximum nr of iterations')
 
         if is_stop_condition_satisfied(function, simplex_points, Xc, e):
             break
