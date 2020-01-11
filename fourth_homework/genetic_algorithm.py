@@ -19,12 +19,12 @@ class GA(ABC):
 
     def find_function_min(self, function, nr_of_variables, lower_limit, upper_limit):
         fitness_function = FitnessFunction(function)
-        population = self.create_population(lower_limit, upper_limit, nr_of_variables, self.population_size)
+        population = self.create_population(lower_limit, upper_limit, nr_of_variables)
         population.evaluate_population(fitness_function)
 
         nr_of_evaluations = 1
 
-        best_unit = population.get_best_unit()
+        overall_best_unit = population.get_best_unit()
 
         while nr_of_evaluations < self.max_evaluations:
             random_units = population.pick_units_at_random(3)
@@ -43,15 +43,15 @@ class GA(ABC):
             population.append(new_unit)
 
             currently_best_unit = population.get_best_unit()
-            if currently_best_unit.value > best_unit.value:
-                best_unit = currently_best_unit
+            if currently_best_unit.value > overall_best_unit.value:
+                overall_best_unit = currently_best_unit
 
             nr_of_evaluations += 1
 
-        return best_unit.point
+        return overall_best_unit.real_point
 
     @abstractmethod
-    def create_population(self, lower_limit, upper_limit, nr_of_variables, population_size):
+    def create_population(self, lower_limit, upper_limit, nr_of_variables):
         pass
 
     @staticmethod

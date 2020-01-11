@@ -18,8 +18,8 @@ class GAFloat(GA):
                          crossover,
                          max_evaluations)
 
-    def create_population(self, lower_limit, upper_limit, nr_of_variables, population_size):
-        return FloatPopulation(lower_limit, upper_limit, nr_of_variables, population_size)
+    def create_population(self, lower_limit, upper_limit, nr_of_variables):
+        return FloatPopulation(lower_limit, upper_limit, nr_of_variables, self.population_size)
 
 
 def main():
