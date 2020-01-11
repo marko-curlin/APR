@@ -15,7 +15,7 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
     if not is_point_within_limits(start_point, implicit_limits=implicit_limits, explicit_limits=explicit_limits):
         raise ValueError('Starting point is not within limits!')
 
-    table = PrettyTable(['centroid - x' + str(i) for i in range(len(start_point))] + ['value of function in centroid'])
+    table = PrettyTable(['total_iterations'] + ['centroid - x' + str(i) for i in range(len(start_point))] + ['value of function in centroid'])
 
     simplex_points: List[List[float]] = [list(start_point)]
     Xc = simplex_points[0]
@@ -32,14 +32,14 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
         simplex_points.append(Xt)
         Xc = calculate_centroid(simplex_points, None)
 
-    iterations_without_improvement = 0
+    total_iterations, iterations_without_improvement = 1, 0
     minimum_value = function(*Xc)
     while True:
         h, h2 = find_worst_and_second_worst_index(simplex_points, function)
 
         Xc = calculate_centroid(simplex_points, h)
 
-        table.add_row([centroid_value for centroid_value in Xc] + [function(*Xc)])
+        table.add_row([total_iterations] + [centroid_value for centroid_value in Xc] + [function(*Xc)])
 
         Xr = reflection(Xc, simplex_points[h], alpha)
 
@@ -64,6 +64,7 @@ def find_function_min(function: Function, start_point: List[float], implicit_lim
                     print(table)
                 raise ArithmeticError('It exceeded maximum nr of iterations')
 
+        total_iterations += 1
         if is_stop_condition_satisfied(function, simplex_points, Xc, e):
             break
 

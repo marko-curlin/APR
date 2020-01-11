@@ -12,17 +12,17 @@ from third_homework.limits.explicit_limits import LowerLimit, UpperLimit
 
 PRINT_STEPS = True
 
-# TODO: Add max iterations to all algorithms!!, create helper functions to safely call optimization functions
+
 def main():
-    # print_headers('FIRST TASK', '#'*70)
-    # first_task()
-    # first_task_golden()
-    # print_headers('SECOND TASK', '#' * 70)
-    # second_task()
-    # print_headers('THIRD TASK', '#' * 70)
-    # third_task()
-    # print_headers('FOURTH TASK', '#' * 70)
-    # fourth_task()
+    print_headers('FIRST TASK', '#'*70)
+    first_task()
+    first_task_golden()
+    print_headers('SECOND TASK', '#' * 70)
+    second_task()
+    print_headers('THIRD TASK', '#' * 70)
+    third_task()
+    print_headers('FOURTH TASK', '#' * 70)
+    fourth_task()
     print_headers('FIFTH TASK', '#' * 70)
     fifth_task()
 
@@ -33,17 +33,19 @@ def print_headers(title, marker):
 
 def first_task():
     print_headers('Using whole gradient step', '-'*10)
-    try:
-        gradient(*get_function_and_start_point(3), enable_output=PRINT_STEPS)
-    except ArithmeticError as e:
-        print(e)
+    securely_call_function_and_print_result(gradient, *get_function_and_start_point(3), enable_output=False)
+    # try:
+    #     gradient(*get_function_and_start_point(3), enable_output=PRINT_STEPS)
+    # except ArithmeticError as e:
+    #     print(e)
 
 
 def first_task_golden():
     print_headers('Using golden step', '-'*10)
     func, start_point = get_function_and_start_point(3)
-    result = gradient(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
-    print_result(result, func)
+    securely_call_function_and_print_result(gradient, func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    # result = gradient(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    # print_result(result, func)
 
 
 def second_task():
@@ -51,25 +53,29 @@ def second_task():
 
     print_headers('First function', '-'*10)
     func, start_point = get_function_and_start_point(1)
-    result = gradient(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
-    print_result(result, func)
+    securely_call_function_and_print_result(gradient, func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    # result = gradient(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    # print_result(result, func)
 
     print_headers('Second function', '-'*10)
     func, start_point = get_function_and_start_point(2)
-    result = gradient(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
-    print_result(result, func)
+    securely_call_function_and_print_result(gradient, func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    # result = gradient(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    # print_result(result, func)
 
     print_headers('NEWTON-RAPHSON', '$'*20)
 
     print_headers('First function', '-'*10)
     func, start_point = get_function_and_start_point(1)
-    result = newton_raphson(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
-    print_result(result, func)
+    securely_call_function_and_print_result(newton_raphson, func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    # result = newton_raphson(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    # print_result(result, func)
 
     print_headers('Second function', '-'*10)
     func, start_point = get_function_and_start_point(2)
-    result = newton_raphson(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
-    print_result(result, func)
+    securely_call_function_and_print_result(newton_raphson, func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    # result = newton_raphson(func, start_point, shift_type='golden', enable_output=PRINT_STEPS)
+    # print_result(result, func)
 
 
 def third_task():
@@ -82,13 +88,17 @@ def third_task():
 
     print_headers('First function', '-' * 10)
     func, start_point = get_function_and_start_point(1)
-    result = box(func, start_point, [implicit_limit1, implicit_limit2], [explicit_limit1, explicit_limit2], enable_output=True)
-    print_result(result, func)
+    securely_call_function_and_print_result(box, func, start_point, [implicit_limit1, implicit_limit2],
+                                            [explicit_limit1, explicit_limit2], enable_output=True)
+    # result = box(func, start_point, [implicit_limit1, implicit_limit2], [explicit_limit1, explicit_limit2], enable_output=True)
+    # print_result(result, func)
 
     print_headers('Second function', '-' * 10)
     func, start_point = get_function_and_start_point(2)
-    result = box(func, start_point, [implicit_limit1, implicit_limit2], [explicit_limit1, explicit_limit2], enable_output=True)
-    print_result(result, func)
+    securely_call_function_and_print_result(box, func, start_point, [implicit_limit1, implicit_limit2],
+                                            [explicit_limit1, explicit_limit2], enable_output=True)
+    # result = box(func, start_point, [implicit_limit1, implicit_limit2], [explicit_limit1, explicit_limit2], enable_output=True)
+    # print_result(result, func)
 
 
 def fourth_task():
@@ -97,13 +107,17 @@ def fourth_task():
 
     print_headers('First function', '-' * 10)
     func, start_point = get_function_and_start_point(1)
-    result = transformation(func, start_point, [implicit_limit1, implicit_limit2], enable_output=True)
-    print_result(result, func)
+    securely_call_function_and_print_result(transformation, func, start_point, [implicit_limit1, implicit_limit2],
+                                            enable_output=True)
+    # result = transformation(func, start_point, [implicit_limit1, implicit_limit2], enable_output=True)
+    # print_result(result, func)
 
     print_headers('Second function', '-' * 10)
     func, start_point = get_function_and_start_point(2)
-    result = transformation(func, start_point, [implicit_limit1, implicit_limit2], enable_output=True)
-    print_result(result, func)
+    securely_call_function_and_print_result(transformation, func, start_point, [implicit_limit1, implicit_limit2],
+                                            enable_output=True)
+    # result = transformation(func, start_point, [implicit_limit1, implicit_limit2], enable_output=True)
+    # print_result(result, func)
 
 
 def fifth_task():
@@ -113,8 +127,18 @@ def fifth_task():
 
     func, _ = get_function_and_start_point(4)
     start_point = (5, 5)
-    result = transformation(func, start_point, [implicit_limit1, implicit_limit2, implicit_limit3], enable_output=True)
-    print_result(result, func)
+    securely_call_function_and_print_result(transformation, func, start_point,
+                                            [implicit_limit1, implicit_limit2, implicit_limit3], enable_output=True)
+    # result = transformation(func, start_point, [implicit_limit1, implicit_limit2, implicit_limit3], enable_output=True)
+    # print_result(result, func)
+
+
+def securely_call_function_and_print_result(func, *args, **kwargs):
+    try:
+        result = func(*args, **kwargs)
+        print_result(result, args[0])
+    except ArithmeticError as e:
+        print(e)
 
 
 def print_result(result, function):
