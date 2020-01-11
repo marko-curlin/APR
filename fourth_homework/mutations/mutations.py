@@ -1,6 +1,6 @@
 from random import random
 
-from fourth_homework.float_unit import FloatUnit
+from fourth_homework.units import FloatUnit, BinaryUnit
 from fourth_homework.utils import *
 
 DIVISOR = 1000
@@ -16,3 +16,19 @@ class FloatMutationLocalShift:
         new_point = set_within_limits(new_point, lower_limit, upper_limit)
 
         return FloatUnit(new_point)
+
+
+class BinarySimpleMutation:
+    @staticmethod
+    def mutate_unit(unit: BinaryUnit, lower_limit, upper_limit):
+        new_point: List[List[int]] = []
+
+        for coordinate in unit.point:
+            new_coordinate = []
+
+            for i in coordinate:
+                new_coordinate.append(i if random() < 0.5 else 1-i)
+
+            new_point.append(new_coordinate)
+
+        return BinaryUnit(new_point, lower_limit, upper_limit)
