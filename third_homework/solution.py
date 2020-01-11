@@ -10,19 +10,19 @@ from third_homework.functions.function_factory import get_function_and_start_poi
 from third_homework.limits.implicit_limits import InequationLimit, EquationLimit
 from third_homework.limits.explicit_limits import LowerLimit, UpperLimit
 
-PRINT_STEPS = False
+PRINT_STEPS = True
 
-
+# TODO: Add max iterations to all algorithms!!, create helper functions to safely call optimization functions
 def main():
-    print_headers('FIRST TASK', '#'*70)
-    first_task()
-    first_task_golden()
-    print_headers('SECOND TASK', '#' * 70)
-    second_task()
-    print_headers('THIRD TASK', '#' * 70)
-    third_task()
-    print_headers('FOURTH TASK', '#' * 70)
-    fourth_task()
+    # print_headers('FIRST TASK', '#'*70)
+    # first_task()
+    # first_task_golden()
+    # print_headers('SECOND TASK', '#' * 70)
+    # second_task()
+    # print_headers('THIRD TASK', '#' * 70)
+    # third_task()
+    # print_headers('FOURTH TASK', '#' * 70)
+    # fourth_task()
     print_headers('FIFTH TASK', '#' * 70)
     fifth_task()
 

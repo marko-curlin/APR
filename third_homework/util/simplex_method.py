@@ -4,6 +4,7 @@ from copy import deepcopy
 from math import sqrt
 from prettytable import PrettyTable
 
+from third_homework.functions.function import InnerPointFunction
 from third_homework.util.utils import add_elements_on_same_index, multiply_each_element
 
 
@@ -133,6 +134,9 @@ def move_all_points_to_Xl(simplex_points, l, sigma):
 
 
 def check_stop_condition(function, simplex_points, centroid, epsilon):
+    if isinstance(function, InnerPointFunction) and function(*centroid) == 0:
+        return True
+
     _sum = 0
 
     value_in_centroid = function(*centroid)
