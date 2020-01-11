@@ -1,17 +1,17 @@
 from statistics import mean
 from random import randint, random
-from typing import List
+from typing import List, Tuple
 
 from fourth_homework.units import FloatUnit, BinaryUnit
 
 
 class FloatAveragingCrossover:
     @staticmethod
-    def create_new_unit(*units):
+    def create_new_unit(*units: Tuple[FloatUnit]):
         new_point = []
 
         for i in range(units[0].dimension):
-            new_point.append(mean(map(lambda unit: unit.point[i], units)))
+            new_point.append(mean(map(lambda unit: unit.real_point[i], units)))
 
         return FloatUnit(new_point)
 
@@ -21,7 +21,7 @@ class FloatSingleCrossoverPoint:
     def create_new_unit(unit1: FloatUnit, unit2: FloatUnit):
         cross_value = randint(0, unit1.dimension)
 
-        new_point = unit1.point[:cross_value] + unit2.point[cross_value:]
+        new_point = unit1.real_point[:cross_value] + unit2.real_point[cross_value:]
 
         return FloatUnit(new_point)
 

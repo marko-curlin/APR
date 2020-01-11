@@ -12,7 +12,7 @@ class FloatMutationLocalShift:
         random_vector = [random() * (upper_limit - lower_limit) / DIVISOR for _ in range(unit.dimension)]
         random_vector = [-el if random() < 0.5 else el for el in random_vector]
 
-        new_point = add_elements_on_same_index(unit.point, random_vector)
+        new_point = add_elements_on_same_index(unit.real_point, random_vector)
         new_point = set_within_limits(new_point, lower_limit, upper_limit)
 
         return FloatUnit(new_point)

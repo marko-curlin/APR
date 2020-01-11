@@ -4,15 +4,15 @@ from typing import List
 
 @dataclasses.dataclass
 class FloatUnit:
-    point: List[float]
+    real_point: List[float]
     value: int = None
 
     @property
     def dimension(self):
-        return len(self.point)
+        return len(self.real_point)
 
     def evaluate_unit(self, fitness_function):
-        self.value = fitness_function(*self.point)
+        self.value = fitness_function(*self.real_point)
 
 
 class BinaryUnit:
