@@ -3,13 +3,13 @@ from random import random
 from fourth_homework.units import FloatUnit, BinaryUnit
 from fourth_homework.utils import *
 
-DIVISOR = 1000
-
 
 class FloatMutationLocalShift:
-    @staticmethod
-    def mutate_unit(unit: FloatUnit, lower_limit, upper_limit):
-        random_vector = [random() * (upper_limit - lower_limit) / DIVISOR for _ in range(unit.dimension)]
+    def __init__(self, shift_divisor):
+        self.divisor = shift_divisor
+
+    def mutate_unit(self, unit: FloatUnit, lower_limit, upper_limit):
+        random_vector = [random() * (upper_limit - lower_limit) / self.divisor for _ in range(unit.dimension)]
         random_vector = [-el if random() < 0.5 else el for el in random_vector]
 
         new_point = add_elements_on_same_index(unit.real_point, random_vector)
