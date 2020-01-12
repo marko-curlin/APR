@@ -17,3 +17,7 @@ def set_within_limits(vector, lower_limit, upper_limit):
             new_vector.append(el)
 
     return new_vector
+
+
+def square_list_elements(vector):
+    return [el ** 2 for el in vector]
