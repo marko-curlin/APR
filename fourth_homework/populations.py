@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from random import random, randint
 from typing import List
 from math import log2, ceil
@@ -5,24 +6,30 @@ from math import log2, ceil
 from fourth_homework.units import FloatUnit, BinaryUnit
 
 
-class FloatPopulation:
+class Population(ABC):
     def __init__(self, lower_limit, upper_limit, nr_of_variables, population_size):
         self.lower_limit = lower_limit
         self.upper_limit = upper_limit
         self.nr_of_variables = nr_of_variables
         self.population_size = population_size
+        self.population_fitness = None
 
         self.population: List[FloatUnit] = self.create_population()
 
     def evaluate_population(self, fitness_function):
+        _sum = 0
         for unit in self.population:
             unit.evaluate_unit(fitness_function)
+            _sum += unit.value
+        self.population_fitness = _sum
 
     def append(self, unit):
         self.population.append(unit)
+        self.population_fitness += unit.value
 
     def remove(self, unit):
         self.population.remove(unit)
+        self.population_fitness -= unit.value
 
     def pick_units_at_random(self, nr_of_units):
         indices = []
@@ -35,6 +42,19 @@ class FloatPopulation:
             indices.append(index)
 
         return [self.population[i] for i in indices]
+
+    def get_best_unit(self):
+        return max(self.population, key=lambda unit: unit.value)
+
+    @abstractmethod
+    def create_population(self):
+        pass
+
+
+class FloatPopulation(Population):
+    def __init__(self, lower_limit, upper_limit, nr_of_variables, population_size):
+        super().__init__(lower_limit, upper_limit, nr_of_variables, population_size)
+
 
     def create_population(self):
         population = []
@@ -52,48 +72,19 @@ class FloatPopulation:
 
         return population
 
-    def get_best_unit(self):
-        return max(self.population, key=lambda unit: unit.value)
 
-
-class BinaryPopulation:
+class BinaryPopulation(Population):
     def __init__(self, lower_limit, upper_limit, nr_of_variables, population_size, decimal_precision):
-        self.lower_limit = lower_limit
-        self.upper_limit = upper_limit
-        self.nr_of_variables = nr_of_variables
-        self.population_size = population_size
         self.__decimal_precision = decimal_precision
 
-        self.nr_of_bits = self.calculate_nr_of_bits()
+        self.nr_of_bits = self.calculate_nr_of_bits(lower_limit, upper_limit)
 
-        self.population: List[BinaryUnit] = self.create_population()
+        super().__init__(lower_limit, upper_limit, nr_of_variables, population_size)
 
-    def calculate_nr_of_bits(self):
+    def calculate_nr_of_bits(self, lower_limit, upper_limit):
         values_per_index = 10**self.__decimal_precision
-        total_possible_values = (self.upper_limit - self.lower_limit) * values_per_index + 1
+        total_possible_values = (upper_limit - lower_limit) * values_per_index + 1
         return ceil(log2(total_possible_values))
-
-    def evaluate_population(self, fitness_function):
-        for unit in self.population:
-            unit.evaluate_unit(fitness_function)
-
-    def append(self, unit):
-        self.population.append(unit)
-
-    def remove(self, unit):
-        self.population.remove(unit)
-
-    def pick_units_at_random(self, nr_of_units):
-        indices = []
-
-        while len(indices) < nr_of_units:
-            index = randint(0, self.population_size - 1)
-            while index in indices:
-                index += 1
-                index %= self.population_size
-            indices.append(index)
-
-        return [self.population[i] for i in indices]
 
     def create_population(self):
         population: List[BinaryUnit] = []
@@ -110,13 +101,6 @@ class BinaryPopulation:
                 population.append(unit)
 
         return population
-
-    def get_best_unit(self):
-        return max(self.population, key=lambda unit: unit.value)
-
-    # def create_random_unit(self):
-    #     for _ in random(self.nr_of_variables):
-    #         self.create_random_point()
 
     def create_random_point(self) -> List[int]:
         return [0 if random() < 0.5 else 1 for _ in range(self.nr_of_bits)]
