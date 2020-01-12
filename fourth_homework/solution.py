@@ -12,18 +12,17 @@ LOWER_LIMIT = -50
 UPPER_LIMIT = 150
 
 
-# TODO: implement print in GA
 def main():
-    # print_headers('FIRST TASK', '#'*70)
-    # first_task_float()
-    # first_task_binary()
-    # print_headers('SECOND TASK', '#'*70)
-    # second_task_float()
-    # second_task_binary()
-    # print_headers('THIRD TASK', '#'*70)
-    # third_task()
-    # print_headers('FOURTH TASK', '#'*70)
-    # fourth_task()
+    print_headers('FIRST TASK', '#'*70)
+    first_task_float()
+    first_task_binary()
+    print_headers('SECOND TASK', '#'*70)
+    second_task_float()
+    second_task_binary()
+    print_headers('THIRD TASK', '#'*70)
+    third_task()
+    print_headers('FOURTH TASK', '#'*70)
+    fourth_task()
     print_headers('FIFTH TASK', '#'*70)
     fifth_task()
 
