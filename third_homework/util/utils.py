@@ -4,7 +4,7 @@ from math import sqrt
 from third_homework.limits.explicit_limits import ExplicitLimit
 from third_homework.limits.implicit_limits import ImplicitLimit
 
-MAX_ITERATIONS = 6_000
+MAX_ITERATIONS = 4_300
 
 
 def norm(vector: List[float]) -> float:
