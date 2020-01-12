@@ -7,12 +7,12 @@ class Function:
         self.previous_results = {}
 
     def __call__(self, *x):
-        if x in self.previous_results:
-            return self.previous_results[x]
+        # if x in self.previous_results:
+        #     return self.previous_results[x]
 
         result = self.preform_function(x)
 
-        self.previous_results[x] = result
+        # self.previous_results[x] = result
 
         return result
 
@@ -22,7 +22,7 @@ class Function:
 
 class FitnessFunction:
     def __init__(self, func: Callable):
-        self.func = Function(func)
+        self.func = func
 
     def __call__(self, *point):
         return -self.func(*point)
