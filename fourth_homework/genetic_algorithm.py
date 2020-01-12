@@ -1,6 +1,8 @@
 from random import random
 from abc import ABC, abstractmethod
 
+from prettytable import PrettyTable
+
 from fourth_homework.functions.function import FitnessFunction
 
 
@@ -18,6 +20,9 @@ class GA(ABC):
         self.max_evaluations = max_evaluations
 
     def find_function_min(self, function, nr_of_variables, lower_limit, upper_limit):
+        table = PrettyTable(['nr_of_evaluations', 'best_unit', 'value_of_best_unit', 'population_fitness'])
+        table.int_format = '17'
+
         fitness_function = FitnessFunction(function)
         population = self.create_population(lower_limit, upper_limit, nr_of_variables)
         population.evaluate_population(fitness_function)
@@ -26,6 +31,8 @@ class GA(ABC):
 
         overall_best_unit = population.get_best_unit()
 
+        table.add_row([nr_of_evaluations, overall_best_unit.real_point, overall_best_unit.value, population.population_fitness])
+        print(table)
         while nr_of_evaluations < self.max_evaluations:
             random_units = population.pick_units_at_random(3)
 
@@ -40,14 +47,21 @@ class GA(ABC):
                 new_unit = self.mutation.mutate_unit(new_unit, lower_limit, upper_limit)
 
             new_unit.evaluate_unit(fitness_function)
+            nr_of_evaluations += 1
             population.append(new_unit)
 
             currently_best_unit = population.get_best_unit()
             if currently_best_unit.value > overall_best_unit.value:
                 overall_best_unit = currently_best_unit
 
-            nr_of_evaluations += 1
+            if nr_of_evaluations % 50_000 == 0:
+                table.add_row([nr_of_evaluations, overall_best_unit.real_point, overall_best_unit.value, population.population_fitness])
+                print(table.get_string(header=False, start=table.rowcount-1, end=table.rowcount))
 
+            if overall_best_unit.value > -10e-6:
+                break
+
+        # print(table)
         return overall_best_unit.real_point
 
     @abstractmethod
