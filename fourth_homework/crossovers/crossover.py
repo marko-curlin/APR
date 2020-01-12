@@ -26,6 +26,17 @@ class FloatSingleCrossoverPoint:
         return FloatUnit(new_point)
 
 
+class FloatUniformCrossover:
+    @staticmethod
+    def create_new_unit(unit1: FloatUnit, unit2: FloatUnit):
+        new_point = []
+
+        for i in range(unit1.dimension):
+            new_point.append(unit1.real_point[i] if random < 0.5 else unit2.real_point[i])
+
+        return FloatUnit(new_point)
+
+
 class BinarySingleCrossoverPoint:
     @staticmethod
     def create_new_unit(unit1: BinaryUnit, unit2: BinaryUnit):
