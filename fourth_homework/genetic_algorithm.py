@@ -12,12 +12,16 @@ class GA(ABC):
                  mutation,
                  mutation_prob,
                  crossover,
-                 max_evaluations):
+                 max_evaluations,
+                 tournament_size=3,
+                 cut_off=-1e-6):
         self.population_size = population_size
         self.mutation = mutation
         self.mutation_prob = mutation_prob
         self.crossover = crossover
         self.max_evaluations = max_evaluations
+        self.tournament_size = tournament_size
+        self.cut_off = cut_off
 
     def find_function_min(self, function, nr_of_variables, lower_limit, upper_limit):
         table = PrettyTable(['nr_of_evaluations', 'best_unit', 'value_of_best_unit', 'population_fitness'])
@@ -34,7 +38,7 @@ class GA(ABC):
         table.add_row([nr_of_evaluations, overall_best_unit.real_point, overall_best_unit.value, population.population_fitness])
         print(table)
         while nr_of_evaluations < self.max_evaluations:
-            random_units = population.pick_units_at_random(3)
+            random_units = population.pick_units_at_random(self.tournament_size)
 
             worst_unit = self.find_worst_unit(random_units)
 
@@ -58,7 +62,7 @@ class GA(ABC):
                 table.add_row([nr_of_evaluations, overall_best_unit.real_point, overall_best_unit.value, population.population_fitness])
                 print(table.get_string(header=False, start=table.rowcount-1, end=table.rowcount))
 
-            if overall_best_unit.value > -10e-6:
+            if overall_best_unit.value > self.cut_off:
                 break
 
         # print(table)
