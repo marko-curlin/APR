@@ -162,4 +162,6 @@ def create_graphs():
 
 if __name__ == '__main__':
     main()
+    print('Creating graphs!\n')
     create_graphs()
+    print('Graphs created!')

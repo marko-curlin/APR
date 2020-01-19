@@ -1,7 +1,7 @@
 from copy import deepcopy
 from math import isclose
 
-from third_homework.util.matrix import Matrix
+from fifth_homework.utils.matrix import Matrix
 
 EPSILON = 10e-6
 
