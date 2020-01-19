@@ -3,7 +3,7 @@ from fifth_homework.utils.utils import *
 
 
 class DirectEulerMethod(TopAlgorithm):
-    def __init__(self, T, t_max, A, x_0, B=None, r_functions=None, print_after_iteration=10):
+    def __init__(self, T, t_max, A, x_0, B=None, r_functions=None, print_after_iteration=100):
         super().__init__(T, t_max, A, x_0, B, r_functions, print_after_iteration)
 
         U = create_eye_matrix(len(A))
@@ -20,7 +20,7 @@ class DirectEulerMethod(TopAlgorithm):
 
             _next = add_elements_on_same_index_of_matrix(_next, N_mul_r)
 
-        return _next[0]
+        return get_as_vector(_next)
 
     def predict(self, x_k, t_k):
         return self.find_next(x_k, t_k)
