@@ -1,5 +1,6 @@
+from copy import deepcopy
 from typing import List
-from math import sqrt, log
+from math import sqrt
 
 from fifth_homework.utils.matrix import Matrix
 from fifth_homework.utils.matrix_utils import matrix_inverse as _matrix_inverse
@@ -73,11 +74,44 @@ def create_eye_matrix(n):
 
 
 def multiply_matrices(a, b):
+    if not isinstance(a[0], list):
+        a = get_as_matrix(a)
+    if not isinstance(b[0], list):
+        b = get_as_matrix(b)
     zip_b = zip(*b)
     zip_b = list(zip_b)
-    return [[sum(ele_a*ele_b for ele_a, ele_b in zip(row_a, col_b))
-             for col_b in zip_b] for row_a in a]
+    result = [[sum(ele_a*ele_b for ele_a, ele_b in zip(row_a, col_b))
+                for col_b in zip_b] for row_a in a]
+    if len(result[0]) == 1:
+        return get_as_vector(result)
+    return result
 
 
 def matrix_inverse(matrix: List[List[float]]) -> List[List[float]]:
     return _matrix_inverse(Matrix(matrix)).as_list()
+
+
+def get_as_vector(matrix):
+    return [el[0] for el in matrix]
+
+
+def get_as_matrix(vector):
+    return [[el] for el in vector]
+
+
+def add_matrices(*matrices):
+    summed_matrix = deepcopy(matrices[0])
+
+    for matrix in matrices[1:]:
+        summed_matrix = add_elements_on_same_index_of_matrix(summed_matrix, matrix)
+
+    return summed_matrix
+
+
+def add_vectors(*vectors):
+    summed_vector = deepcopy(vectors[0])
+
+    for vector in vectors[1:]:
+        summed_vector = add_elements_on_same_index(summed_vector, vector)
+
+    return summed_vector
