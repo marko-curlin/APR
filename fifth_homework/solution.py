@@ -143,6 +143,7 @@ def execute_all_methods(args, kwargs):
     args.extend(temp_args)
     print_results(PredictorCorrectorMethod, args, kwargs)
 
+    args[1] = TrapeziumMethod
     args[4] = 1
     print_results(PredictorCorrectorMethod, args, kwargs)
 
