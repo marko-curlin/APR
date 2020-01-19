@@ -218,6 +218,23 @@ class Matrix:
     def as_list(self):
         return self.matrix
 
+    @classmethod
+    def eye_matrix(cls, n: int):
+        eye_matrix = []
+
+        for i in range(n):
+            row = []
+
+            for j in range(n):
+                if j == i:
+                    row.append(1)
+                else:
+                    row.append(0)
+
+            eye_matrix.append(row)
+
+        return eye_matrix
+
 
 if __name__ == '__main__':
     test_matrix = Matrix([[1.01, 2.1], [3, 4]])
