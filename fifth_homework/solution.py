@@ -1,4 +1,5 @@
 from math import cos, sin
+import matplotlib.pyplot as plt
 
 from fifth_homework.algorithms.direct_euler_method import DirectEulerMethod
 from fifth_homework.algorithms.reverse_euler_method import ReverseEulerMethod
@@ -7,6 +8,11 @@ from fifth_homework.algorithms.runge_kutta_method import RungeKuttaMethod
 from fifth_homework.algorithms.predictor_corrector_method import PredictorCorrectorMethod
 
 from fifth_homework.utils.utils import frange
+
+ALL_METHODS = ['direct_euler_method', 'reverse_euler_method', 'trapezium_method', 'runge_kutta_method',
+               'predictor(direct_euler)_corrector(reverse_euler)_method',
+               'predictor(direct_euler)_corrector(trapezium)_method']
+all_results = []
 
 
 def main():
@@ -57,6 +63,11 @@ def print_results_for_first_task(method_class, args, correct_result):
 
     print('{} error: {}'.format(str(method_class).split('.')[-1][:-2], _sum))
 
+    if method_class != PredictorCorrectorMethod:
+        all_results.append((result, list(frange(0, args[1], args[0]))))
+    else:
+        all_results.append((result, list(frange(0, args[3], args[2]))))
+
 
 def second_task():
     A = [[0, 1], [-200, -102]]
@@ -67,18 +78,7 @@ def second_task():
     args = (T, t_max, A, x_0)
     kwargs = {'print_after_iteration': 1}
 
-    execute_all_methods(args, kwargs)
-    #
-    # print_results(DirectEulerMethod, args, kwargs)
-    # print_results(ReverseEulerMethod, args, kwargs)
-    # print_results(TrapeziumMethod, args, kwargs)
-    # print_results(RungeKuttaMethod, args, kwargs)
-    #
-    # args = (DirectEulerMethod, ReverseEulerMethod, T, t_max, 2, A, x_0)
-    # print_results(PredictorCorrectorMethod, args, kwargs)
-    #
-    # args = (DirectEulerMethod, TrapeziumMethod, T, t_max, 1, A, x_0)
-    # print_results(PredictorCorrectorMethod, args, kwargs)
+    print_for_all_methods(args, kwargs)
 
 
 def third_task():
@@ -92,18 +92,7 @@ def third_task():
     args = (T, t_max, A, x_0, B, r)
     kwargs = {'print_after_iteration': 100}
 
-    execute_all_methods(args, kwargs)
-
-    # print_results(DirectEulerMethod, args, kwargs)
-    # print_results(ReverseEulerMethod, args, kwargs)
-    # print_results(TrapeziumMethod, args, kwargs)
-    # print_results(RungeKuttaMethod, args, kwargs)
-    #
-    # args = (DirectEulerMethod, ReverseEulerMethod, T, t_max, 2, A, x_0, B, r)
-    # print_results(PredictorCorrectorMethod, args, kwargs)
-    #
-    # args = (DirectEulerMethod, TrapeziumMethod, T, t_max, 1, A, x_0, B, r)
-    # print_results(PredictorCorrectorMethod, args, kwargs)
+    print_for_all_methods(args, kwargs)
 
 
 def fourth_task():
@@ -117,21 +106,10 @@ def fourth_task():
     args = (T, t_max, A, x_0, B, r)
     kwargs = {'print_after_iteration': 10}
 
-    execute_all_methods(args, kwargs)
-
-    # print_results(DirectEulerMethod, args, kwargs)
-    # print_results(ReverseEulerMethod, args, kwargs)
-    # print_results(TrapeziumMethod, args, kwargs)
-    # print_results(RungeKuttaMethod, args, kwargs)
-    #
-    # args = (DirectEulerMethod, ReverseEulerMethod, T, t_max, 2, A, x_0, B, r)
-    # print_results(PredictorCorrectorMethod, args, kwargs)
-    #
-    # args = (DirectEulerMethod, TrapeziumMethod, T, t_max, 1, A, x_0, B, r)
-    # print_results(PredictorCorrectorMethod, args, kwargs)
+    print_for_all_methods(args, kwargs)
 
 
-def execute_all_methods(args, kwargs):
+def print_for_all_methods(args, kwargs):
     print_results(DirectEulerMethod, args, kwargs)
     print_results(ReverseEulerMethod, args, kwargs)
     print_results(TrapeziumMethod, args, kwargs)
@@ -154,10 +132,34 @@ def print_results(method_class, args, kwargs):
     method = method_class(*args, **kwargs)
     result = method.solve_equation()
 
+    if method_class != PredictorCorrectorMethod:
+        all_results.append((result, list(frange(0, args[1], args[0]))))
+    else:
+        all_results.append((result, list(frange(0, args[3], args[2]))))
+
 
 def print_headers(title, marker):
     print("{} {} {}".format(marker, title, marker))
 
 
+def create_graphs():
+    results = list(reversed(all_results))
+    for task in range(1, 5):
+        for method in ALL_METHODS:
+            result = results.pop()
+            x = result[1]
+            y1 = list(map(lambda y: y[0], result[0]))
+            y2 = list(map(lambda y: y[1], result[0]))
+
+            plt.plot(x, y1, label='x1')
+            plt.plot(x, y2, label='x2')
+
+            plt.legend()
+            plt.savefig('graph_images/task{}-{}.png'.format(str(task), method))
+            plt.clf()
+
+
+
 if __name__ == '__main__':
     main()
+    create_graphs()
