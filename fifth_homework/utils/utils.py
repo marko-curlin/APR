@@ -43,34 +43,24 @@ def max_diff_on_same_indices(vector1: List[float], vector2: List[float]) -> floa
     return max(map(abs, sub_elements_on_same_index(vector1, vector2)))
 
 
-def frange(start, stop, step):
+def frange(start, stop=None, step=None):
+    # if stop and step argument is None set start=0.0 and step = 1.0
+    start = float(start)
+    if stop is None:
+        stop = start + 0.0
+        start = 0.0
+    if step is None:
+        step = 1.0
 
-    old_start = start  # backup this value
-
-    digits = int(round(log(10000, 10)))+1  # get number of digits
-    magnitude = 10**digits
-    stop = int(magnitude * stop)  # convert from
-    step = int(magnitude * step)  # 0.1 to 10 (e.g.)
-
-    if start == 0:
-        start = 10**(digits-1)
-    else:
-        start = 10**(digits)*start
-
-    data = []   # create array
-
-    # calc number of iterations
-    end_loop = int((stop-start)//step)
-    if old_start == 0:
-        end_loop += 1
-
-    acc = start
-
-    for i in range(0, end_loop):
-        data.append(acc/magnitude)
-        acc += step
-
-    return data
+    count = 0
+    while True:
+        temp = float(start + count * step)
+        if step > 0 and temp >= stop + step:
+            break
+        elif step < 0 and temp <= stop + step:
+            break
+        yield temp
+        count += 1
 
 
 def create_eye_matrix(n):
