@@ -26,7 +26,7 @@ class TopAlgorithm(ABC):
             x.append(x_k_1)
 
             if iteration % self.print_after_iteration == 0:
-                table.add_row([iteration, t_k, x_k, x_k_1])
+                table.add_row([iteration, round(t_k, 1), x_k, x_k_1])
 
             x_k = x_k_1
             iteration += 1
