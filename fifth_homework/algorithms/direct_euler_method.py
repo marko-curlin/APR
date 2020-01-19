@@ -18,9 +18,9 @@ class DirectEulerMethod(TopAlgorithm):
         if self.N is not None:
             N_mul_r = multiply_matrices(self.N, self.get_r_matrix(t_k))
 
-            _next = add_elements_on_same_index_of_matrix(_next, N_mul_r)
+            _next = add_vectors(_next, N_mul_r)
 
-        return get_as_vector(_next)
+        return _next
 
     def predict(self, x_k, t_k):
         return self.find_next(x_k, t_k)

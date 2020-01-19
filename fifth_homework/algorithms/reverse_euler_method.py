@@ -17,6 +17,16 @@ class ReverseEulerMethod(TopAlgorithm):
 
         if self.Q is not None:
             t_k_1 = t_k + self.T
-            _next = add_elements_on_same_index_of_matrix(_next, multiply_matrices(self.Q, self.get_r_matrix(t_k_1)))
+            _next = add_vectors(_next, multiply_matrices(self.Q, self.get_r_matrix(t_k_1)))
 
-        return get_as_vector(_next)
+        return _next
+
+    def correct(self, x_k, predicted_next, t_k):
+        _next = multiply_matrices(self.A, predicted_next)
+
+        if self.B is not None:
+            _next = add_vectors(_next, multiply_matrices(self.B, self.get_r_matrix(t_k + self.T)))
+
+        _next = multiply_each_element(_next, self.T)
+
+        return add_vectors(x_k, _next)

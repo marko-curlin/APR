@@ -39,7 +39,7 @@ class TopAlgorithm(ABC):
         r_matrix = []
 
         for function in self.r_functions:
-            r_matrix.append(function(t))
+            r_matrix.append([function(t)])
 
         return r_matrix
 
