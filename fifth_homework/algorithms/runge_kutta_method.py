@@ -17,7 +17,7 @@ class RungeKuttaMethod(TopAlgorithm):
 
         m_3 = self.get_first_addend(x_k, m_2, 1/2)
         if self.B is not None:
-            m_3 = add_elements_on_same_index(m_2, self.get_second_addend(t_k, 1/2))
+            m_3 = add_elements_on_same_index(m_3, self.get_second_addend(t_k, 1/2))
 
         m_4 = self.get_first_addend(x_k, m_3, 1)
         if self.B is not None:
