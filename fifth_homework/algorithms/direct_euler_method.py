@@ -3,16 +3,9 @@ from fifth_homework.utils.utils import *
 
 
 class DirectEulerMethod(TopAlgorithm):
-    def __init__(self,
-                 A,
-                 B,
-                 r_functions,
-                 x_0,
-                 T,
-                 t_max,
-                 print_after_iteration
-                 ):
-        super().__init__(A, B, r_functions, x_0, T, t_max, print_after_iteration)
+    def __init__(self, T, t_max, A, x_0, B=None, r_functions=None, print_after_iteration=10):
+        super().__init__(T, t_max, A, x_0, B, r_functions, print_after_iteration)
+
         U = create_eye_matrix(len(A))
 
         self.M = add_elements_on_same_index_of_matrix(U, multiply_each_element_of_matrix(A, T))

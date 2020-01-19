@@ -5,19 +5,11 @@ from fifth_homework.utils.utils import *
 
 
 class TopAlgorithm(ABC):
-    def __init__(self,
-                 A,
-                 B,
-                 r_functions,
-                 x0,
-                 T,
-                 t_max,
-                 print_after_iteration
-                 ):
+    def __init__(self, T, t_max, A, x_0, B=None, r_functions=None, print_after_iteration=10):
         self.A = A
         self.B = B
         self.r_functions = r_functions
-        self.x0 = x0
+        self.x0 = x_0
         self.T = T
         self.t_max = t_max
         self.print_after_iteration = print_after_iteration
